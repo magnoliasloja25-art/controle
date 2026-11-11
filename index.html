@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#945840">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Magnólias">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>Magnólias - Revenda & Estoque</title>
+    <style id="base-css">
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+html{line-height:1.5;-webkit-text-size-adjust:100%;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+body{margin:0;line-height:inherit}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}
+a{color:inherit;text-decoration:inherit}
+b,strong{font-weight:bolder}
+table{text-indent:0;border-color:inherit;border-collapse:collapse}
+button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}
+button,select{text-transform:none}
+button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}
+::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}
+blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}
+fieldset{margin:0;padding:0}
+legend{padding:0}
+ol,ul,menu{list-style:none;margin:0;padding:0}
+textarea{resize:vertical}
+input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}
+button,[role=button]{cursor:pointer}
+:disabled{cursor:default}
+img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}
+img,video{max-width:100%;height:auto}
+[hidden]{display:none}
+</style>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Firebase (versão compat: funciona com onclick direto no HTML) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #FAF6F0; }
+        ::-webkit-scrollbar-thumb { background: #D5B7A0; border-radius: 9999px; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid rgba(231, 213, 197, 0.4); }
+        .tab-active { border-bottom: 3px solid #945840; color: #7A4330; font-weight: 700; }
+        .tab-inactive { border-bottom: 3px solid transparent; color: #a8a29e; font-weight: 500; }
+        .tab-inactive:hover { color: #7A4330; }
+        body { padding-bottom: env(safe-area-inset-bottom); }
+        input[type=number]::-webkit-inner-spin-button { opacity: .4; }
+    </style>
+    <style id="utility-css">
+.divide-stone-100 > :not([hidden]) ~ :not([hidden]){border-color:#f5f5f4}
+.divide-y > :not([hidden]) ~ :not([hidden]){border-top-width:1px}
+.space-y-1 > :not([hidden]) ~ :not([hidden]){margin-top:0.25rem}
+.space-y-2 > :not([hidden]) ~ :not([hidden]){margin-top:0.5rem}
+.space-y-3 > :not([hidden]) ~ :not([hidden]){margin-top:0.75rem}
+.space-y-4 > :not([hidden]) ~ :not([hidden]){margin-top:1rem}
+.space-y-5 > :not([hidden]) ~ :not([hidden]){margin-top:1.25rem}
+.space-y-6 > :not([hidden]) ~ :not([hidden]){margin-top:1.5rem}
+.block{display:block}
+.flex{display:flex}
+.grid{display:grid}
+.inline-block{display:inline-block}
+.hidden{display:none}
+.fixed{position:fixed}
+.sticky{position:sticky}
+.inset-0{inset:0px}
+.bottom-4{bottom:1rem}
+.left-0{left:0px}
+.right-0{right:0px}
+.top-0{top:0px}
+.z-\[60\]{z-index:60}
+.z-\[80\]{z-index:80}
+.z-30{z-index:30}
+.z-50{z-index:50}
+.flex-col{flex-direction:column}
+.flex-wrap{flex-wrap:wrap}
+.flex-1{flex:1 1 0%}
+.shrink-0{flex-shrink:0}
+.items-center{align-items:center}
+.items-end{align-items:flex-end}
+.items-start{align-items:flex-start}
+.items-stretch{align-items:stretch}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.justify-end{justify-content:flex-end}
+.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}
+.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gap-0\.5{gap:0.125rem}
+.gap-1{gap:0.25rem}
+.gap-1\.5{gap:0.375rem}
+.gap-2{gap:0.5rem}
+.gap-3{gap:0.75rem}
+.gap-4{gap:1rem}
+.w-10{width:2.5rem}
+.w-14{width:3.5rem}
+.w-16{width:4rem}
+.w-3{width:0.75rem}
+.w-32{width:8rem}
+.w-8{width:2rem}
+.w-full{width:100%}
+.h-1\.5{height:0.375rem}
+.h-10{height:2.5rem}
+.h-16{height:4rem}
+.h-3{height:0.75rem}
+.h-40{height:10rem}
+.min-w-\[2\.6rem\]{min-width:2.6rem}
+.min-w-\[200px\]{min-width:200px}
+.min-w-\[3rem\]{min-width:3rem}
+.min-w-0{min-width:0px}
+.min-h-\[1rem\]{min-height:1rem}
+.min-h-screen{min-height:100vh}
+.max-w-\[260px\]{max-width:260px}
+.max-w-\[280px\]{max-width:280px}
+.max-w-4xl{max-width:56rem}
+.max-w-7xl{max-width:80rem}
+.max-w-md{max-width:28rem}
+.max-w-sm{max-width:24rem}
+.max-w-xs{max-width:20rem}
+.mx-1{margin-left:0.25rem;margin-right:0.25rem}
+.mx-auto{margin-left:auto;margin-right:auto}
+.my-auto{margin-top:auto;margin-bottom:auto}
+.-mt-1{margin-top:-0.25rem}
+.mb-1{margin-bottom:0.25rem}
+.mb-2{margin-bottom:0.5rem}
+.mb-3{margin-bottom:0.75rem}
+.mb-4{margin-bottom:1rem}
+.mb-6{margin-bottom:1.5rem}
+.mr-1\.5{margin-right:0.375rem}
+.mr-2{margin-right:0.5rem}
+.mt-1{margin-top:0.25rem}
+.mt-1\.5{margin-top:0.375rem}
+.mt-2{margin-top:0.5rem}
+.mt-3{margin-top:0.75rem}
+.mt-4{margin-top:1rem}
+.mt-8{margin-top:2rem}
+.p-1{padding:0.25rem}
+.p-2{padding:0.5rem}
+.p-3{padding:0.75rem}
+.p-4{padding:1rem}
+.p-5{padding:1.25rem}
+.p-6{padding:1.5rem}
+.p-8{padding:2rem}
+.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}
+.px-2{padding-left:0.5rem;padding-right:0.5rem}
+.px-3{padding-left:0.75rem;padding-right:0.75rem}
+.px-4{padding-left:1rem;padding-right:1rem}
+.px-5{padding-left:1.25rem;padding-right:1.25rem}
+.px-6{padding-left:1.5rem;padding-right:1.5rem}
+.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}
+.py-1{padding-top:0.25rem;padding-bottom:0.25rem}
+.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}
+.py-10{padding-top:2.5rem;padding-bottom:2.5rem}
+.py-2{padding-top:0.5rem;padding-bottom:0.5rem}
+.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}
+.py-3{padding-top:0.75rem;padding-bottom:0.75rem}
+.py-4{padding-top:1rem;padding-bottom:1rem}
+.py-6{padding-top:1.5rem;padding-bottom:1.5rem}
+.py-8{padding-top:2rem;padding-bottom:2rem}
+.pb-1{padding-bottom:0.25rem}
+.pb-2{padding-bottom:0.5rem}
+.pt-1{padding-top:0.25rem}
+.pt-2{padding-top:0.5rem}
+.border{border-width:1px}
+.border-collapse{border-collapse:collapse}
+.border-b{border-bottom-width:1px}
+.border-l-4{border-left-width:4px}
+.border-t{border-top-width:1px}
+.border-amber-200{border-color:#fde68a}
+.border-emerald-100{border-color:#d1fae5}
+.border-emerald-200{border-color:#a7f3d0}
+.border-emerald-600{border-color:#059669}
+.border-magnolia-200{border-color:#E7D5C5}
+.border-magnolia-300{border-color:#D5B7A0}
+.border-magnolia-600{border-color:#945840}
+.border-rose-200{border-color:#fecdd3}
+.border-sky-100{border-color:#e0f2fe}
+.border-stone-100{border-color:#f5f5f4}
+.border-stone-200{border-color:#e7e5e4}
+.border-stone-300{border-color:#d6d3d1}
+.border-l-amber-500{border-left-color:#f59e0b}
+.border-l-blue-500{border-left-color:#3b82f6}
+.border-l-emerald-500{border-left-color:#10b981}
+.border-l-indigo-500{border-left-color:#6366f1}
+.border-l-magnolia-600{border-left-color:#945840}
+.border-l-stone-400{border-left-color:#a8a29e}
+.rounded{border-radius:.25rem}
+.rounded-2xl{border-radius:1rem}
+.rounded-3xl{border-radius:1.5rem}
+.rounded-full{border-radius:9999px}
+.rounded-lg{border-radius:.5rem}
+.rounded-sm{border-radius:.125rem}
+.rounded-xl{border-radius:.75rem}
+.rounded-t{border-top-left-radius:.25rem;border-top-right-radius:.25rem}
+.bg-amber-50{background-color:#fffbeb}
+.bg-amber-600{background-color:#d97706}
+.bg-emerald-50{background-color:#ecfdf5}
+.bg-emerald-500{background-color:#10b981}
+.bg-emerald-600{background-color:#059669}
+.bg-magnolia-100{background-color:#F4ECE1}
+.bg-magnolia-50{background-color:#FAF6F0}
+.bg-magnolia-500{background-color:#AC7256}
+.bg-magnolia-600{background-color:#945840}
+.bg-rose-50{background-color:#fff1f2}
+.bg-rose-600{background-color:#e11d48}
+.bg-sky-50{background-color:#f0f9ff}
+.bg-sky-500{background-color:#0ea5e9}
+.bg-sky-600{background-color:#0284c7}
+.bg-stone-100{background-color:#f5f5f4}
+.bg-stone-50{background-color:#fafaf9}
+.bg-stone-800{background-color:#292524}
+.bg-stone-900\/60{background-color:rgb(28 25 23 / 0.6)}
+.bg-white{background-color:#ffffff}
+.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}
+.text-\[10px\]{font-size:10px}
+.text-\[11px\]{font-size:11px}
+.text-\[13px\]{font-size:13px}
+.text-3xl{font-size:1.875rem;line-height:2.25rem}
+.text-base{font-size:1rem;line-height:1.5rem}
+.text-lg{font-size:1.125rem;line-height:1.75rem}
+.text-sm{font-size:.875rem;line-height:1.25rem}
+.text-xl{font-size:1.25rem;line-height:1.75rem}
+.text-xs{font-size:.75rem;line-height:1rem}
+.text-amber-500{color:#f59e0b}
+.text-amber-600{color:#d97706}
+.text-amber-700{color:#b45309}
+.text-emerald-600{color:#059669}
+.text-emerald-700{color:#047857}
+.text-emerald-900{color:#064e3b}
+.text-magnolia-500{color:#AC7256}
+.text-magnolia-600{color:#945840}
+.text-magnolia-700{color:#7A4330}
+.text-magnolia-800{color:#603324}
+.text-magnolia-900{color:#48241A}
+.text-rose-500{color:#f43f5e}
+.text-rose-600{color:#e11d48}
+.text-rose-700{color:#be123c}
+.text-sky-600{color:#0284c7}
+.text-sky-700{color:#0369a1}
+.text-sky-900{color:#0c4a6e}
+.text-stone-400{color:#a8a29e}
+.text-stone-500{color:#78716c}
+.text-stone-600{color:#57534e}
+.text-stone-700{color:#44403c}
+.text-stone-800{color:#292524}
+.text-stone-900{color:#1c1917}
+.text-white{color:#ffffff}
+.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace}
+.font-sans{font-family:'Plus Jakarta Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+.font-serif{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif}
+.font-bold{font-weight:700}
+.font-extrabold{font-weight:800}
+.font-medium{font-weight:500}
+.font-semibold{font-weight:600}
+.text-center{text-align:center}
+.text-left{text-align:left}
+.text-right{text-align:right}
+.tracking-wider{letter-spacing:.05em}
+.tracking-widest{letter-spacing:.1em}
+.leading-tight{line-height:1.25}
+.shadow-2xl{box-shadow:0 25px 50px -12px rgb(0 0 0 / .25)}
+.shadow-md{box-shadow:0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1)}
+.shadow-sm{box-shadow:0 1px 2px 0 rgb(0 0 0 / .05)}
+.shadow-xl{box-shadow:0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1)}
+.backdrop-blur-md{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.backdrop-blur-sm{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.overflow-hidden{overflow:hidden}
+.overflow-x-auto{overflow-x:auto}
+.overflow-y-auto{overflow-y:auto}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.break-words{overflow-wrap:break-word}
+.whitespace-nowrap{white-space:nowrap}
+.normal-case{text-transform:none}
+.uppercase{text-transform:uppercase}
+.pointer-events-auto{pointer-events:auto}
+.pointer-events-none{pointer-events:none}
+.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
+.last\:border-0:last-child{border-width:0px}
+.hover\:border-emerald-400:hover{border-color:#34d399}
+.hover\:border-magnolia-400:hover{border-color:#C0937A}
+.hover\:bg-emerald-700:hover{background-color:#047857}
+.hover\:bg-magnolia-700:hover{background-color:#7A4330}
+.hover\:bg-sky-700:hover{background-color:#0369a1}
+.hover\:bg-stone-100:hover{background-color:#f5f5f4}
+.hover\:bg-stone-200:hover{background-color:#e7e5e4}
+.hover\:bg-stone-50:hover{background-color:#fafaf9}
+.hover\:bg-stone-50\/50:hover{background-color:rgb(250 250 249 / 0.5)}
+.hover\:text-emerald-600:hover{color:#059669}
+.hover\:text-magnolia-600:hover{color:#945840}
+.hover\:text-magnolia-700:hover{color:#7A4330}
+.hover\:text-magnolia-900:hover{color:#48241A}
+.hover\:text-rose-600:hover{color:#e11d48}
+.hover\:text-sky-600:hover{color:#0284c7}
+.hover\:text-sky-900:hover{color:#0c4a6e}
+.hover\:text-stone-700:hover{color:#44403c}
+.focus\:ring-magnolia-500:focus{--tw-ring-color:#AC7256}
+.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}
+.focus\:ring-2:focus{box-shadow:0 0 0 2px var(--tw-ring-color,rgb(59 130 246 / .5))}
+.active\:scale-95:active{transform:scale(0.95)}
+.disabled\:opacity-60:disabled{opacity:0.6}
+@media (min-width:640px){
+.sm\:block{display:block}
+.sm\:inline{display:inline}
+.sm\:hidden{display:none}
+.sm\:items-center{align-items:center}
+.sm\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sm\:grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.sm\:col-span-2{grid-column:span 2 / span 2}
+.sm\:gap-2{gap:0.5rem}
+.sm\:gap-4{gap:1rem}
+.sm\:w-12{width:3rem}
+.sm\:w-4{width:1rem}
+.sm\:w-56{width:14rem}
+.sm\:h-12{height:3rem}
+.sm\:h-20{height:5rem}
+.sm\:p-5{padding:1.25rem}
+.sm\:px-3{padding-left:0.75rem;padding-right:0.75rem}
+.sm\:px-4{padding-left:1rem;padding-right:1rem}
+.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}
+.sm\:text-2xl{font-size:1.5rem;line-height:2rem}
+.sm\:text-3xl{font-size:1.875rem;line-height:2.25rem}
+.sm\:text-sm{font-size:.875rem;line-height:1.25rem}
+.sm\:text-xs{font-size:.75rem;line-height:1rem}
+}
+@media (min-width:768px){
+.md\:inline{display:inline}
+.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (min-width:1024px){
+.lg\:flex-row{flex-direction:row}
+.lg\:flex-none{flex:none}
+.lg\:items-center{align-items:center}
+.lg\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lg\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.lg\:w-auto{width:auto}
+.lg\:px-8{padding-left:2rem;padding-right:2rem}
+}
+.ph-bold,.ph-fill{display:inline-block;width:1em;height:1em;flex-shrink:0;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--ph) no-repeat center/contain;mask:var(--ph) no-repeat center/contain}
+.ph-bold.ph-arrow-counter-clockwise{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M228%2C128a100%2C100%2C0%2C0%2C1-98.66%2C100H128a99.39%2C99.39%2C0%2C0%2C1-68.62-27.29%2C12%2C12%2C0%2C0%2C1%2C16.48-17.45%2C76%2C76%2C0%2C1%2C0-1.57-109c-.13.13-.25.25-.39.37L54.89%2C92H72a12%2C12%2C0%2C0%2C1%2C0%2C24H24a12%2C12%2C0%2C0%2C1-12-12V56a12%2C12%2C0%2C0%2C1%2C24%2C0V76.72L57.48%2C57.06A100%2C100%2C0%2C0%2C1%2C228%2C128Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-calculator{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M200%2C20H56A20%2C20%2C0%2C0%2C0%2C36%2C40V216a20%2C20%2C0%2C0%2C0%2C20%2C20H200a20%2C20%2C0%2C0%2C0%2C20-20V40A20%2C20%2C0%2C0%2C0%2C200%2C20Zm-4%2C192H60V44H196ZM80%2C76A12%2C12%2C0%2C0%2C1%2C92%2C64h72a12%2C12%2C0%2C0%2C1%2C0%2C24H92A12%2C12%2C0%2C0%2C1%2C80%2C76Zm40%2C52a16%2C16%2C0%2C1%2C1-16-16A16%2C16%2C0%2C0%2C1%2C120%2C128Zm48%2C0a16%2C16%2C0%2C1%2C1-16-16A16%2C16%2C0%2C0%2C1%2C168%2C128Zm-48%2C48a16%2C16%2C0%2C1%2C1-16-16A16%2C16%2C0%2C0%2C1%2C120%2C176Zm48%2C0a16%2C16%2C0%2C1%2C1-16-16A16%2C16%2C0%2C0%2C1%2C168%2C176Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-calendar-blank{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M208%2C28H188V24a12%2C12%2C0%2C0%2C0-24%2C0v4H92V24a12%2C12%2C0%2C0%2C0-24%2C0v4H48A20%2C20%2C0%2C0%2C0%2C28%2C48V208a20%2C20%2C0%2C0%2C0%2C20%2C20H208a20%2C20%2C0%2C0%2C0%2C20-20V48A20%2C20%2C0%2C0%2C0%2C208%2C28ZM68%2C52a12%2C12%2C0%2C0%2C0%2C24%2C0h72a12%2C12%2C0%2C0%2C0%2C24%2C0h16V76H52V52ZM52%2C204V100H204V204Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-download-simple{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M228%2C144v64a12%2C12%2C0%2C0%2C1-12%2C12H40a12%2C12%2C0%2C0%2C1-12-12V144a12%2C12%2C0%2C0%2C1%2C24%2C0v52H204V144a12%2C12%2C0%2C0%2C1%2C24%2C0Zm-108.49%2C8.49a12%2C12%2C0%2C0%2C0%2C17%2C0l40-40a12%2C12%2C0%2C0%2C0-17-17L140%2C115V32a12%2C12%2C0%2C0%2C0-24%2C0v83L96.49%2C95.51a12%2C12%2C0%2C0%2C0-17%2C17Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-flower-lotus{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M249.3%2C119.63a19.51%2C19.51%2C0%2C0%2C0-12-9.2A76%2C76%2C0%2C0%2C0%2C218.92%2C108a92.19%2C92.19%2C0%2C0%2C0-3-42%2C20.15%2C20.15%2C0%2C0%2C0-23.44-13.57A88.39%2C88.39%2C0%2C0%2C0%2C166.3%2C62.8%2C98%2C98%2C0%2C0%2C0%2C140%2C32%2C20.07%2C20.07%2C0%2C0%2C0%2C116%2C32%2C98%2C98%2C0%2C0%2C0%2C89.7%2C62.8%2C88.39%2C88.39%2C0%2C0%2C0%2C63.55%2C52.42%2C20.15%2C20.15%2C0%2C0%2C0%2C40.11%2C66a92.19%2C92.19%2C0%2C0%2C0-3%2C42%2C76%2C76%2C0%2C0%2C0-18.41%2C2.43%2C19.51%2C19.51%2C0%2C0%2C0-12%2C9.2%2C20%2C20%2C0%2C0%2C0-2%2C15.31c3.55%2C13.16%2C14.4%2C38.16%2C47.14%2C57.72C84.16%2C212%2C112.76%2C212%2C128.08%2C212s43.76%2C0%2C76.07-19.34c32.74-19.56%2C43.59-44.56%2C47.14-57.72A20%2C20%2C0%2C0%2C0%2C249.3%2C119.63ZM64.16%2C172.05c-22.29-13.32-31.35-29.13-35-39.35a57.54%2C57.54%2C0%2C0%2C1%2C14.54-.46%2C134%2C134%2C0%2C0%2C0%2C8.55%2C17.69%2C142.54%2C142.54%2C0%2C0%2C0%2C19.59%2C26.32C69.3%2C175%2C66.74%2C173.6%2C64.16%2C172.05ZM79%2C147.27c-2.1-3-4.12-6-6-9.29C57.37%2C110.7%2C58.84%2C88.94%2C62%2C76.76A69%2C69%2C0%2C0%2C1%2C80.5%2C85.33%2C124.18%2C124.18%2C0%2C0%2C0%2C76%2C119.17%2C127.59%2C127.59%2C0%2C0%2C0%2C79%2C147.27Zm49%2C38c-9.72-8.07-28-28.28-28-66.13%2C0-37.42%2C18-57.7%2C28-66.08%2C10%2C8.38%2C28%2C28.66%2C28%2C66.08C156%2C157%2C137.72%2C177.23%2C128%2C185.3Zm49-38a127.59%2C127.59%2C0%2C0%2C0%2C3-28.1%2C124.18%2C124.18%2C0%2C0%2C0-4.5-33.84A69.08%2C69.08%2C0%2C0%2C1%2C194%2C76.75c3.13%2C12.19%2C4.6%2C34-11.06%2C61.23C181.1%2C141.23%2C179.08%2C144.32%2C177%2C147.27Zm14.86%2C24.78c-2.56%2C1.53-5.09%2C2.91-7.58%2C4.16a142.54%2C142.54%2C0%2C0%2C0%2C19.51-26.28%2C134%2C134%2C0%2C0%2C0%2C8.55-17.69%2C57.54%2C57.54%2C0%2C0%2C1%2C14.54.46C223.19%2C142.92%2C214.13%2C158.73%2C191.84%2C172.05Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-list-checks{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M228%2C128a12%2C12%2C0%2C0%2C1-12%2C12H128a12%2C12%2C0%2C0%2C1%2C0-24h88A12%2C12%2C0%2C0%2C1%2C228%2C128ZM128%2C76h88a12%2C12%2C0%2C0%2C0%2C0-24H128a12%2C12%2C0%2C0%2C0%2C0%2C24Zm88%2C104H128a12%2C12%2C0%2C0%2C0%2C0%2C24h88a12%2C12%2C0%2C0%2C0%2C0-24ZM79.51%2C39.51%2C56%2C63l-7.51-7.52a12%2C12%2C0%2C0%2C0-17%2C17l16%2C16a12%2C12%2C0%2C0%2C0%2C17%2C0l32-32a12%2C12%2C0%2C0%2C0-17-17Zm0%2C64L56%2C127l-7.51-7.52a12%2C12%2C0%2C1%2C0-17%2C17l16%2C16a12%2C12%2C0%2C0%2C0%2C17%2C0l32-32a12%2C12%2C0%2C0%2C0-17-17Zm0%2C64L56%2C191l-7.51-7.52a12%2C12%2C0%2C1%2C0-17%2C17l16%2C16a12%2C12%2C0%2C0%2C0%2C17%2C0l32-32a12%2C12%2C0%2C0%2C0-17-17Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-package{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M225.6%2C62.64l-88-48.17a19.91%2C19.91%2C0%2C0%2C0-19.2%2C0l-88%2C48.17A20%2C20%2C0%2C0%2C0%2C20%2C80.19v95.62a20%2C20%2C0%2C0%2C0%2C10.4%2C17.55l88%2C48.17a19.89%2C19.89%2C0%2C0%2C0%2C19.2%2C0l88-48.17A20%2C20%2C0%2C0%2C0%2C236%2C175.81V80.19A20%2C20%2C0%2C0%2C0%2C225.6%2C62.64ZM128%2C36.57%2C200%2C76%2C178.57%2C87.73l-72-39.42Zm0%2C78.83L56%2C76%2C81.56%2C62l72%2C39.41ZM44%2C96.79l72%2C39.4v76.67L44%2C173.44Zm96%2C116.07V136.19l24-13.13V152a12%2C12%2C0%2C0%2C0%2C24%2C0V109.92l24-13.13v76.65Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-pencil{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M230.14%2C70.54%2C185.46%2C25.85a20%2C20%2C0%2C0%2C0-28.29%2C0L33.86%2C149.17A19.85%2C19.85%2C0%2C0%2C0%2C28%2C163.31V208a20%2C20%2C0%2C0%2C0%2C20%2C20H92.69a19.86%2C19.86%2C0%2C0%2C0%2C14.14-5.86L230.14%2C98.82a20%2C20%2C0%2C0%2C0%2C0-28.28ZM93%2C180l71-71%2C11%2C11-71%2C71ZM76%2C163%2C65%2C152l71-71%2C11%2C11ZM52%2C173l15.51%2C15.51h0L83%2C204H52ZM192%2C103%2C153%2C64l18.34-18.34%2C39%2C39Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-pencil-simple{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M230.14%2C70.54%2C185.46%2C25.85a20%2C20%2C0%2C0%2C0-28.29%2C0L33.86%2C149.17A19.85%2C19.85%2C0%2C0%2C0%2C28%2C163.31V208a20%2C20%2C0%2C0%2C0%2C20%2C20H92.69a19.86%2C19.86%2C0%2C0%2C0%2C14.14-5.86L230.14%2C98.82a20%2C20%2C0%2C0%2C0%2C0-28.28ZM91%2C204H52V165l84-84%2C39%2C39ZM192%2C103%2C153%2C64l18.34-18.34%2C39%2C39Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-plus-circle{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M128%2C20A108%2C108%2C0%2C1%2C0%2C236%2C128%2C108.12%2C108.12%2C0%2C0%2C0%2C128%2C20Zm0%2C192a84%2C84%2C0%2C1%2C1%2C84-84A84.09%2C84.09%2C0%2C0%2C1%2C128%2C212Zm52-84a12%2C12%2C0%2C0%2C1-12%2C12H140v28a12%2C12%2C0%2C0%2C1-24%2C0V140H88a12%2C12%2C0%2C0%2C1%2C0-24h28V88a12%2C12%2C0%2C0%2C1%2C24%2C0v28h28A12%2C12%2C0%2C0%2C1%2C180%2C128Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-shopping-bag{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M216%2C36H40A20%2C20%2C0%2C0%2C0%2C20%2C56V200a20%2C20%2C0%2C0%2C0%2C20%2C20H216a20%2C20%2C0%2C0%2C0%2C20-20V56A20%2C20%2C0%2C0%2C0%2C216%2C36Zm-4%2C160H44V60H212ZM76%2C88a12%2C12%2C0%2C0%2C1%2C24%2C0%2C28%2C28%2C0%2C0%2C0%2C56%2C0%2C12%2C12%2C0%2C0%2C1%2C24%2C0A52%2C52%2C0%2C0%2C1%2C76%2C88Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-sign-out{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M124%2C216a12%2C12%2C0%2C0%2C1-12%2C12H48a12%2C12%2C0%2C0%2C1-12-12V40A12%2C12%2C0%2C0%2C1%2C48%2C28h64a12%2C12%2C0%2C0%2C1%2C0%2C24H60V204h52A12%2C12%2C0%2C0%2C1%2C124%2C216Zm108.49-96.49-40-40a12%2C12%2C0%2C0%2C0-17%2C17L195%2C116H112a12%2C12%2C0%2C0%2C0%2C0%2C24h83l-19.52%2C19.51a12%2C12%2C0%2C0%2C0%2C17%2C17l40-40A12%2C12%2C0%2C0%2C0%2C232.49%2C119.51Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-t-shirt{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M246.17%2C57.9%2C198.09%2C29.65h0A11.9%2C11.9%2C0%2C0%2C0%2C192%2C28H160a12%2C12%2C0%2C0%2C0-12%2C12%2C20%2C20%2C0%2C0%2C1-40%2C0A12%2C12%2C0%2C0%2C0%2C96%2C28H64a11.9%2C11.9%2C0%2C0%2C0-6.07%2C1.66h0L9.83%2C57.9A20.18%2C20.18%2C0%2C0%2C0%2C2%2C84l17.9%2C36.8A19.62%2C19.62%2C0%2C0%2C0%2C37.67%2C132H52v76a20%2C20%2C0%2C0%2C0%2C20%2C20H184a20%2C20%2C0%2C0%2C0%2C20-20V132h14.32a19.64%2C19.64%2C0%2C0%2C0%2C17.75-11.17L254%2C84A20.18%2C20.18%2C0%2C0%2C0%2C246.17%2C57.9ZM40.37%2C108%2C25.16%2C76.73%2C52%2C61v47ZM180%2C204H76V52h9.67a44%2C44%2C0%2C0%2C0%2C84.68%2C0H180Zm35.62-96H204V61l26.83%2C15.76Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-trash{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M216%2C48H180V36A28%2C28%2C0%2C0%2C0%2C152%2C8H104A28%2C28%2C0%2C0%2C0%2C76%2C36V48H40a12%2C12%2C0%2C0%2C0%2C0%2C24h4V208a20%2C20%2C0%2C0%2C0%2C20%2C20H192a20%2C20%2C0%2C0%2C0%2C20-20V72h4a12%2C12%2C0%2C0%2C0%2C0-24ZM100%2C36a4%2C4%2C0%2C0%2C1%2C4-4h48a4%2C4%2C0%2C0%2C1%2C4%2C4V48H100Zm88%2C168H68V72H188ZM116%2C104v64a12%2C12%2C0%2C0%2C1-24%2C0V104a12%2C12%2C0%2C0%2C1%2C24%2C0Zm48%2C0v64a12%2C12%2C0%2C0%2C1-24%2C0V104a12%2C12%2C0%2C0%2C1%2C24%2C0Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-trend-up{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M244%2C56v64a12%2C12%2C0%2C0%2C1-24%2C0V85l-75.51%2C75.52a12%2C12%2C0%2C0%2C1-17%2C0L96%2C129%2C32.49%2C192.49a12%2C12%2C0%2C0%2C1-17-17l72-72a12%2C12%2C0%2C0%2C1%2C17%2C0L136%2C135l67-67H168a12%2C12%2C0%2C0%2C1%2C0-24h64A12%2C12%2C0%2C0%2C1%2C244%2C56Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-bold.ph-x{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M208.49%2C191.51a12%2C12%2C0%2C0%2C1-17%2C17L128%2C145%2C64.49%2C208.49a12%2C12%2C0%2C0%2C1-17-17L111%2C128%2C47.51%2C64.49a12%2C12%2C0%2C0%2C1%2C17-17L128%2C111l63.51-63.52a12%2C12%2C0%2C0%2C1%2C17%2C17L145%2C128Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-chart-bar{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M232%2C208a8%2C8%2C0%2C0%2C1-8%2C8H32a8%2C8%2C0%2C0%2C1%2C0-16h8V136a8%2C8%2C0%2C0%2C1%2C8-8H72a8%2C8%2C0%2C0%2C1%2C8%2C8v64H96V88a8%2C8%2C0%2C0%2C1%2C8-8h32a8%2C8%2C0%2C0%2C1%2C8%2C8V200h16V40a8%2C8%2C0%2C0%2C1%2C8-8h40a8%2C8%2C0%2C0%2C1%2C8%2C8V200h8A8%2C8%2C0%2C0%2C1%2C232%2C208Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-credit-card{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M224%2C48H32A16%2C16%2C0%2C0%2C0%2C16%2C64V192a16%2C16%2C0%2C0%2C0%2C16%2C16H224a16%2C16%2C0%2C0%2C0%2C16-16V64A16%2C16%2C0%2C0%2C0%2C224%2C48ZM136%2C176H120a8%2C8%2C0%2C0%2C1%2C0-16h16a8%2C8%2C0%2C0%2C1%2C0%2C16Zm64%2C0H168a8%2C8%2C0%2C0%2C1%2C0-16h32a8%2C8%2C0%2C0%2C1%2C0%2C16ZM32%2C88V64H224V88Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-fire{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M143.38%2C17.85a8%2C8%2C0%2C0%2C0-12.63%2C3.41l-22%2C60.41L84.59%2C58.26a8%2C8%2C0%2C0%2C0-11.93.89C51%2C87.53%2C40%2C116.08%2C40%2C144a88%2C88%2C0%2C0%2C0%2C176%2C0C216%2C84.55%2C165.21%2C36%2C143.38%2C17.85Zm40.51%2C135.49a57.6%2C57.6%2C0%2C0%2C1-46.56%2C46.55A7.65%2C7.65%2C0%2C0%2C1%2C136%2C200a8%2C8%2C0%2C0%2C1-1.32-15.89c16.57-2.79%2C30.63-16.85%2C33.44-33.45a8%2C8%2C0%2C0%2C1%2C15.78%2C2.68Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-star{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M234.29%2C114.85l-45%2C38.83L203%2C211.75a16.4%2C16.4%2C0%2C0%2C1-24.5%2C17.82L128%2C198.49%2C77.47%2C229.57A16.4%2C16.4%2C0%2C0%2C1%2C53%2C211.75l13.76-58.07-45-38.83A16.46%2C16.46%2C0%2C0%2C1%2C31.08%2C86l59-4.76%2C22.76-55.08a16.36%2C16.36%2C0%2C0%2C1%2C30.27%2C0l22.75%2C55.08%2C59%2C4.76a16.46%2C16.46%2C0%2C0%2C1%2C9.37%2C28.86Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-trophy{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M232%2C64H208V48a8%2C8%2C0%2C0%2C0-8-8H56a8%2C8%2C0%2C0%2C0-8%2C8V64H24A16%2C16%2C0%2C0%2C0%2C8%2C80V96a40%2C40%2C0%2C0%2C0%2C40%2C40h3.65A80.13%2C80.13%2C0%2C0%2C0%2C120%2C191.61V216H96a8%2C8%2C0%2C0%2C0%2C0%2C16h64a8%2C8%2C0%2C0%2C0%2C0-16H136V191.58c31.94-3.23%2C58.44-25.64%2C68.08-55.58H208a40%2C40%2C0%2C0%2C0%2C40-40V80A16%2C16%2C0%2C0%2C0%2C232%2C64ZM48%2C120A24%2C24%2C0%2C0%2C1%2C24%2C96V80H48v32q0%2C4%2C.39%2C8ZM232%2C96a24%2C24%2C0%2C0%2C1-24%2C24h-.5a81.81%2C81.81%2C0%2C0%2C0%2C.5-8.9V80h24Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+.ph-fill.ph-warning{--ph:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M236.8%2C188.09%2C149.35%2C36.22h0a24.76%2C24.76%2C0%2C0%2C0-42.7%2C0L19.2%2C188.09a23.51%2C23.51%2C0%2C0%2C0%2C0%2C23.72A24.35%2C24.35%2C0%2C0%2C0%2C40.55%2C224h174.9a24.35%2C24.35%2C0%2C0%2C0%2C21.33-12.19A23.51%2C23.51%2C0%2C0%2C0%2C236.8%2C188.09ZM120%2C104a8%2C8%2C0%2C0%2C1%2C16%2C0v40a8%2C8%2C0%2C0%2C1-16%2C0Zm8%2C88a12%2C12%2C0%2C1%2C1%2C12-12A12%2C12%2C0%2C0%2C1%2C128%2C192Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")}
+    </style>
+</head>
+<body class="bg-magnolia-50 font-sans text-stone-800 antialiased min-h-screen flex flex-col">
+
+    <!-- LOGIN -->
+    <div id="loginScreen" class="fixed inset-0 z-[60] bg-magnolia-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-magnolia-200 p-8">
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-16 h-16 rounded-full bg-magnolia-100 flex items-center justify-center text-magnolia-700 border border-magnolia-300 mb-3">
+                    <i class="ph-bold ph-flower-lotus text-3xl"></i>
+                </div>
+                <h1 class="font-serif text-3xl font-bold text-magnolia-900">MAGNÓLIAS</h1>
+                <p class="text-[10px] tracking-widest text-magnolia-500 uppercase font-bold">Revenda & Analytics</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" required autocomplete="username" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm bg-stone-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="loginSenha">Senha</label>
+                    <input type="password" id="loginSenha" required autocomplete="current-password" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm bg-stone-50">
+                </div>
+                <p id="loginError" class="text-sm text-rose-600 font-semibold hidden"></p>
+                <p id="loginInfo" class="text-sm text-emerald-700 font-semibold hidden"></p>
+                <button type="submit" id="loginBtn" class="w-full bg-magnolia-600 hover:bg-magnolia-700 text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95">Entrar</button>
+                <button type="button" onclick="handleResetSenha()" class="w-full text-xs text-stone-500 hover:text-magnolia-700 font-semibold">Esqueci minha senha</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOASTS -->
+    <div id="toastBox" class="fixed bottom-4 left-0 right-0 z-[80] flex flex-col items-center gap-2 px-4 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-magnolia-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-magnolia-100 flex items-center justify-center text-magnolia-700 border border-magnolia-300">
+                        <i class="ph-bold ph-flower-lotus text-xl sm:text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-serif text-xl sm:text-2xl font-bold text-magnolia-900 leading-tight">MAGNÓLIAS</h1>
+                        <p class="hidden sm:block text-[10px] tracking-widest text-magnolia-500 uppercase font-bold">Revenda & Analytics</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <span id="syncStatus" class="hidden sm:inline text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">Conectando...</span>
+                    <div class="flex gap-1.5 sm:gap-2">
+                        <button type="button" onclick="openSaleModal()" aria-label="Nova venda" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-3 sm:px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95">
+                            <i class="ph-bold ph-shopping-bag text-lg"></i><span class="hidden md:inline">Nova Venda</span>
+                        </button>
+                        <button type="button" onclick="openRestockModal()" aria-label="Reposição de estoque" class="flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95">
+                            <i class="ph-bold ph-package text-lg"></i><span class="hidden md:inline">Reposição</span>
+                        </button>
+                        <button type="button" onclick="openRegisterModal()" aria-label="Novo produto" class="flex items-center gap-2 bg-magnolia-600 hover:bg-magnolia-700 text-white px-3 sm:px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95">
+                            <i class="ph-bold ph-plus-circle text-lg"></i><span class="hidden md:inline">Novo Produto</span>
+                        </button>
+                        <button type="button" onclick="handleLogout()" title="Sair" aria-label="Sair" class="flex items-center bg-stone-100 hover:bg-stone-200 text-stone-600 px-3 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95">
+                            <i class="ph-bold ph-sign-out text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="sm:hidden pb-2 -mt-1"><span id="syncStatusMobile" class="text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">Conectando...</span></div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Tabs & Filtros -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 bg-white p-2 rounded-2xl shadow-sm border border-stone-200">
+            <div class="flex overflow-x-auto">
+                <button type="button" onclick="switchTab('vendas')" id="tab-vendas" class="tab-active whitespace-nowrap px-3 sm:px-6 py-3 text-sm transition-all flex-1 lg:flex-none text-center">
+                    <i class="ph-bold ph-trend-up mr-1.5"></i>Vendas
+                </button>
+                <button type="button" onclick="switchTab('estoque')" id="tab-estoque" class="tab-inactive whitespace-nowrap px-3 sm:px-6 py-3 text-sm transition-all flex-1 lg:flex-none text-center">
+                    <i class="ph-bold ph-package mr-1.5"></i>Estoque
+                </button>
+                <button type="button" onclick="switchTab('movs')" id="tab-movs" class="tab-inactive whitespace-nowrap px-3 sm:px-6 py-3 text-sm transition-all flex-1 lg:flex-none text-center">
+                    <i class="ph-bold ph-list-checks mr-1.5"></i>Movimentações
+                </button>
+            </div>
+
+            <div class="flex items-center gap-2 px-2">
+                <i class="ph-bold ph-calendar-blank text-stone-400"></i>
+                <select id="filterMonth" onchange="renderApp()" aria-label="Mês" class="bg-stone-50 border border-stone-200 text-stone-700 text-[13px] sm:text-sm rounded-lg px-2 sm:px-3 py-2 font-semibold w-full min-w-0 lg:w-auto">
+                    <option value="ALL">Todos os Meses</option>
+                    <option value="01">Janeiro</option><option value="02">Fevereiro</option><option value="03">Março</option>
+                    <option value="04">Abril</option><option value="05">Maio</option><option value="06">Junho</option>
+                    <option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option>
+                    <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+                </select>
+                <select id="filterYear" onchange="onPeriodChange()" aria-label="Ano" class="bg-stone-50 border border-stone-200 text-stone-700 text-[13px] sm:text-sm rounded-lg px-2 sm:px-3 py-2 font-semibold w-full min-w-0 lg:w-auto"></select>
+            </div>
+        </div>
+
+        <!-- VENDAS -->
+        <div id="view-vendas" class="space-y-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-emerald-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Venda Geral</p>
+                    <h3 id="kpiVendaGeral" class="text-xl sm:text-3xl font-extrabold text-stone-800 break-words">R$ 0,00</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-magnolia-600">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Lucro Geral</p>
+                    <h3 id="kpiLucroGeral" class="text-xl sm:text-3xl font-extrabold text-magnolia-800 break-words">R$ 0,00</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-blue-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Peças Vendidas</p>
+                    <h3 id="kpiPecasVendidas" class="text-xl sm:text-3xl font-extrabold text-stone-800">0</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-amber-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Ticket Médio</p>
+                    <h3 id="kpiTicket" class="text-xl sm:text-3xl font-extrabold text-stone-800 break-words">R$ 0,00</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <h4 id="chartTitle" class="text-sm font-bold text-stone-800 uppercase flex items-center gap-2"><i class="ph-fill ph-chart-bar text-emerald-600 text-lg"></i> Vendas por mês</h4>
+                    <div class="flex items-center gap-3 text-[11px] font-semibold text-stone-500">
+                        <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-emerald-500"></span>Venda</span>
+                        <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-magnolia-500"></span>Lucro</span>
+                    </div>
+                </div>
+                <div id="chartBox"></div>
+                <p id="chartInfo" class="text-xs text-stone-500 mt-3 min-h-[1rem]"></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <h4 class="text-sm font-bold text-stone-800 uppercase mb-4 flex items-center gap-2"><i class="ph-fill ph-trophy text-amber-500 text-lg"></i> Top 3: Mais Vendidas</h4>
+                    <ul id="listTopVendidas" class="space-y-3"></ul>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <h4 class="text-sm font-bold text-stone-800 uppercase mb-4 flex items-center gap-2"><i class="ph-fill ph-star text-magnolia-500 text-lg"></i> Top 3: Maior Margem (R$)</h4>
+                    <ul id="listTopMargem" class="space-y-3"></ul>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <h4 class="text-sm font-bold text-stone-800 uppercase mb-4 flex items-center gap-2"><i class="ph-fill ph-credit-card text-sky-600 text-lg"></i> Forma de Pagamento</h4>
+                    <ul id="listPagamentos" class="space-y-3"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTOQUE -->
+        <div id="view-estoque" class="space-y-6 hidden">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-indigo-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Peças em Estoque</p>
+                    <h3 id="kpiEstoqueAtual" class="text-xl sm:text-3xl font-extrabold text-stone-800">0</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-stone-400">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Estoque a Custo</p>
+                    <h3 id="kpiEstoqueCusto" class="text-xl sm:text-3xl font-extrabold text-stone-800 break-words">R$ 0,00</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-emerald-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Estoque a Preço de Venda</p>
+                    <h3 id="kpiEstoqueVenda" class="text-xl sm:text-3xl font-extrabold text-emerald-700 break-words">R$ 0,00</h3>
+                </div>
+                <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-blue-500">
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-1">Vendidas no Período</p>
+                    <h3 id="kpiEstoqueVendidas" class="text-xl sm:text-3xl font-extrabold text-stone-800">0</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <h4 class="text-sm font-bold text-stone-800 uppercase flex items-center gap-2"><i class="ph-fill ph-warning text-amber-500 text-lg"></i> Estoque Baixo</h4>
+                        <label class="text-[11px] font-semibold text-stone-500 flex items-center gap-1.5">Avisar até
+                            <input type="number" id="limiteBaixo" min="0" value="2" onchange="onLimiteChange()" class="w-14 px-2 py-1 border border-stone-200 rounded-lg text-sm font-bold text-center"> un
+                        </label>
+                    </div>
+                    <ul id="listBaixo" class="space-y-2"></ul>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <h4 class="text-sm font-bold text-stone-800 uppercase mb-4 flex items-center gap-2"><i class="ph-fill ph-fire text-rose-500 text-lg"></i> Top 5: Maiores Saídas</h4>
+                    <ul id="listTopSaidas" class="space-y-3"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOVIMENTAÇÕES -->
+        <div id="view-movs" class="hidden">
+            <section class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+                <div class="bg-stone-50 px-4 py-3 border-b border-stone-200 flex flex-wrap items-center justify-between gap-3">
+                    <h3 class="font-bold text-stone-800 text-sm uppercase">Vendas e Movimentações do Período</h3>
+                    <div class="flex items-center gap-2">
+                        <select id="movFilter" onchange="state.movLimit=100; renderMovs()" aria-label="Tipo" class="bg-white border border-stone-300 text-sm rounded-lg px-2 py-1.5 font-semibold">
+                            <option value="all">Todas</option>
+                            <option value="venda">Vendas</option>
+                            <option value="entrada">Reposições</option>
+                            <option value="ajuste">Ajustes</option>
+                        </select>
+                        <button type="button" onclick="exportMovs()" class="flex items-center gap-1.5 bg-white border border-stone-300 hover:bg-stone-100 text-stone-700 px-3 py-1.5 rounded-lg text-sm font-bold">
+                            <i class="ph-bold ph-download-simple"></i><span class="hidden sm:inline">Exportar CSV</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-white border-b border-stone-200 text-[10px] font-bold uppercase tracking-wider text-stone-500">
+                                <th class="py-3 px-4">Data</th>
+                                <th class="py-3 px-4">Tipo</th>
+                                <th class="py-3 px-4 min-w-[200px]">Peça</th>
+                                <th class="py-3 px-4 text-center">Qtd</th>
+                                <th class="py-3 px-4">Pagamento</th>
+                                <th class="py-3 px-4 text-right">Total</th>
+                                <th class="py-3 px-4 text-right">Lucro</th>
+                                <th class="py-3 px-4 text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="movTbody" class="divide-y divide-stone-100"></tbody>
+                    </table>
+                </div>
+                <div id="movMore" class="hidden p-3 text-center border-t border-stone-100">
+                    <button type="button" onclick="state.movLimit+=100; renderMovs()" class="text-sm font-bold text-magnolia-700 hover:text-magnolia-900">Mostrar mais</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TABELA GERAL -->
+        <section class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden mt-8">
+            <div class="bg-stone-50 px-4 py-3 border-b border-stone-200 flex justify-between items-center gap-3">
+                <h3 class="font-bold text-stone-800 text-sm uppercase">Lista Completa de Produtos</h3>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="searchInput" oninput="renderTableOnly()" placeholder="Buscar..." class="px-3 py-1.5 text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-magnolia-500 w-32 sm:w-56">
+                    <button type="button" onclick="exportProdutos()" title="Exportar produtos (CSV)" aria-label="Exportar produtos" class="flex items-center bg-white border border-stone-300 hover:bg-stone-100 text-stone-700 px-3 py-1.5 rounded-lg text-sm font-bold">
+                        <i class="ph-bold ph-download-simple"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-white border-b border-stone-200 text-[10px] font-bold uppercase tracking-wider text-stone-500">
+                            <th class="py-3 px-4">Código</th>
+                            <th class="py-3 px-4 min-w-[200px]">Descrição & Coleção</th>
+                            <th class="py-3 px-4 text-center">Estoque</th>
+                            <th class="py-3 px-4 text-right">Custo Base</th>
+                            <th class="py-3 px-4 text-center">Margem</th>
+                            <th class="py-3 px-4 text-right">Preço Venda</th>
+                            <th class="py-3 px-4 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTbody" class="divide-y divide-stone-100"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL: NOVA VENDA -->
+    <div id="saleModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden my-auto">
+            <div class="bg-emerald-50 px-6 py-4 border-b border-emerald-100 flex items-center justify-between">
+                <h3 id="saleTitle" class="font-serif text-xl font-bold text-emerald-900 flex items-center gap-2"><i class="ph-bold ph-shopping-bag"></i> Registrar Venda</h3>
+                <button type="button" onclick="closeSaleModal()" aria-label="Fechar" class="text-stone-400 hover:text-stone-700 p-1"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="handleSaleSubmit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="saleEditId" value="">
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="saleProductSelect">Produto</label>
+                    <select id="saleProductSelect" required onchange="onSaleProductChange()" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-semibold bg-stone-50"></select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="saleDate">Data da Venda</label>
+                        <input type="date" id="saleDate" required class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="saleQty">Quantidade</label>
+                        <input type="number" id="saleQty" required min="1" value="1" oninput="updateSalePreview()" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-lg font-bold text-center">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-2">Forma de pagamento</label>
+                    <input type="hidden" id="salePay" value="pix">
+                    <div id="salePayChips" class="grid grid-cols-4 gap-2"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="salePreco">Valor cobrado (un.)</label>
+                        <input type="number" step="0.01" min="0" id="salePreco" required oninput="onSalePriceInput()" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-bold font-mono">
+                    </div>
+                    <div id="saleTaxaWrap" class="hidden">
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="saleTaxa">Taxa maquineta (%)</label>
+                        <input type="number" step="0.01" min="0" id="saleTaxa" oninput="onSaleTaxaInput()" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-bold font-mono bg-amber-50">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="saleCliente">Cliente / observação <span class="text-stone-400 normal-case font-medium">(opcional)</span></label>
+                    <input type="text" id="saleCliente" maxlength="80" class="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm">
+                </div>
+                <div class="bg-stone-50 rounded-xl border border-stone-200 p-3 text-sm space-y-1">
+                    <div class="flex justify-between"><span class="text-stone-500">Total da venda</span><strong id="sumTotal" class="font-mono">R$ 0,00</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Taxa da maquineta</span><strong id="sumTaxa" class="font-mono text-amber-700">R$ 0,00</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Lucro líquido</span><strong id="sumLucro" class="font-mono text-magnolia-700">R$ 0,00</strong></div>
+                    <p id="sumHint" class="text-[11px] text-stone-400 pt-1"></p>
+                </div>
+                <div class="pt-2 flex justify-end gap-2 border-t border-stone-100">
+                    <button type="button" onclick="closeSaleModal()" class="px-5 py-2.5 rounded-xl border text-stone-600 text-sm font-bold hover:bg-stone-50">Cancelar</button>
+                    <button type="submit" id="saleSubmitBtn" class="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-bold hover:bg-emerald-700 shadow-md disabled:opacity-60">Confirmar Venda</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: REPOSIÇÃO -->
+    <div id="restockModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden my-auto">
+            <div class="bg-sky-50 px-6 py-4 border-b border-sky-100 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold text-sky-900 flex items-center gap-2"><i class="ph-bold ph-package"></i> Reposição de Estoque</h3>
+                <button type="button" onclick="closeRestockModal()" aria-label="Fechar" class="text-stone-400 hover:text-stone-700 p-1"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="handleRestockSubmit(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="restockProduct">Produto</label>
+                    <select id="restockProduct" required class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-semibold bg-stone-50"></select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="restockDate">Data da entrada</label>
+                        <input type="date" id="restockDate" required class="w-full px-3 py-3 rounded-xl border border-stone-200 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="restockQty">Quantidade</label>
+                        <input type="number" id="restockQty" required min="1" value="1" class="w-full px-3 py-3 rounded-xl border border-stone-200 text-lg font-bold text-center">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 uppercase mb-1" for="restockObs">Observação <span class="text-stone-400 normal-case font-medium">(opcional)</span></label>
+                    <input type="text" id="restockObs" maxlength="80" placeholder="Ex: Pedido do fornecedor" class="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm">
+                </div>
+                <div class="pt-2 flex justify-end gap-2 border-t border-stone-100">
+                    <button type="button" onclick="closeRestockModal()" class="px-5 py-2.5 rounded-xl border text-stone-600 text-sm font-bold hover:bg-stone-50">Cancelar</button>
+                    <button type="submit" id="restockSubmitBtn" class="px-6 py-2.5 rounded-xl bg-sky-600 text-white text-sm font-bold hover:bg-sky-700 shadow-md disabled:opacity-60">Adicionar ao Estoque</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: PRODUTO -->
+    <div id="productModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden my-auto">
+            <div class="bg-magnolia-100 px-6 py-4 border-b border-magnolia-200 flex justify-between items-center">
+                <h3 id="modalTitle" class="font-serif text-xl font-bold text-magnolia-900 flex items-center gap-2"><i class="ph-bold ph-t-shirt"></i> Cadastrar Peça</h3>
+                <button type="button" onclick="closeProductModal()" aria-label="Fechar" class="text-stone-400 hover:text-stone-700"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="handleFormSubmit(event)" class="p-6 space-y-5">
+                <input type="hidden" id="editCodigo" value="">
+
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1" for="inputCodigo">CÓDIGO</label>
+                        <input type="text" id="inputCodigo" required oninput="onCodigoInput()" class="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm font-mono uppercase bg-stone-50">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1" for="inputDescricao">DESCRIÇÃO DA PEÇA</label>
+                        <input type="text" id="inputDescricao" required class="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1" for="inputColecao">COLEÇÃO / LANÇAMENTO</label>
+                        <input type="text" id="inputColecao" placeholder="Ex: Verão 2027" class="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label id="sizeLabel" class="block text-[10px] font-bold text-stone-500 uppercase mb-2">TAMANHO</label>
+                    <div id="sizeChips" class="flex flex-wrap gap-2"></div>
+                    <p id="sizeHint" class="text-[10px] text-stone-400 mt-1.5">NA = não se aplica / tamanho único</p>
+                    <div id="sizeQtyBox" class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+                    <p id="codesPreview" class="text-[11px] text-magnolia-700 font-semibold mt-2"></p>
+                    <div id="editStockBox" class="hidden mt-3 max-w-xs">
+                        <label class="block text-[10px] font-bold text-stone-500 uppercase mb-1" for="inputEstoqueAtual">Estoque atual</label>
+                        <input type="number" id="inputEstoqueAtual" min="0" value="0" class="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm font-bold">
+                        <p class="text-[10px] text-stone-400 mt-1">Se mudar este número, o ajuste fica registrado nas Movimentações.</p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                    <h4 class="text-[10px] font-bold text-magnolia-700 uppercase mb-3"><i class="ph-bold ph-calculator"></i> Custos e Precificação (Revenda)</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-600 uppercase mb-1" for="inputPrecoCompra">Preço Compra</label>
+                            <input type="number" step="0.01" min="0" id="inputPrecoCompra" required oninput="calcPreview()" class="w-full px-2 py-2 border rounded-lg text-sm font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-600 uppercase mb-1" for="inputTaxaDeslocamento">Taxa Desloc.</label>
+                            <input type="number" step="0.01" min="0" id="inputTaxaDeslocamento" value="0" oninput="calcPreview()" class="w-full px-2 py-2 border rounded-lg text-sm font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-600 uppercase mb-1" for="inputDespesaFixa">Desp. Fixas</label>
+                            <input type="number" step="0.01" min="0" id="inputDespesaFixa" value="0" oninput="calcPreview()" class="w-full px-2 py-2 border rounded-lg text-sm font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-600 uppercase mb-1" for="inputTaxaMaquineta">Maquineta (%)</label>
+                            <input type="number" step="0.01" min="0" id="inputTaxaMaquineta" value="7" oninput="calcPreview()" class="w-full px-2 py-2 border rounded-lg text-sm font-mono bg-amber-50">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-emerald-700 uppercase mb-1" for="inputMargem">Margem (%)</label>
+                            <input type="number" step="0.01" min="0" id="inputMargem" value="40" required oninput="calcPreview()" class="w-full px-2 py-2 border rounded-lg text-sm font-mono bg-emerald-50">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-3 rounded-lg border border-stone-200 text-sm">
+                        <div class="text-center"><span class="block text-[10px] text-stone-400">Custo Base Total</span><strong id="prevCusto" class="font-mono">R$ 0,00</strong></div>
+                        <div class="text-center"><span class="block text-[10px] text-stone-400">Preço à Vista (Pix/Din.)</span><strong id="prevAVista" class="text-emerald-600 font-mono">R$ 0,00</strong></div>
+                        <div class="text-center"><span class="block text-[10px] text-stone-400">Preço no Cartão</span><strong id="prevVenda" class="text-emerald-600 font-mono text-base">R$ 0,00</strong></div>
+                        <div class="text-center"><span class="block text-[10px] text-stone-400">Lucro Líquido/Pç (Cartão)</span><strong id="prevLucro" class="text-magnolia-700 font-mono">R$ 0,00</strong></div>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeProductModal()" class="px-5 py-2.5 rounded-xl border text-stone-600 text-sm font-bold">Cancelar</button>
+                    <button type="submit" id="productSubmitBtn" class="px-6 py-2.5 rounded-xl bg-magnolia-600 text-white text-sm font-bold hover:bg-magnolia-700 disabled:opacity-60">Salvar Peça</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // FIREBASE
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKcrj6Jdzld__GWrmS7OcDoaCcz-2Y_oc",
+            authDomain: "controlemagnolias.firebaseapp.com",
+            projectId: "controlemagnolias",
+            storageBucket: "controlemagnolias.firebasestorage.app",
+            messagingSenderId: "297374343922",
+            appId: "1:297374343922:web:d4712ba81b924256bda66b"
+        };
+
+        let auth = null, db = null, initError = null;
+        try {
+            if (typeof firebase === 'undefined') throw new Error('Biblioteca do Firebase não carregou (verifique a internet).');
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+            // Guarda os dados no aparelho: abre mais rápido, economiza leituras e funciona sem internet
+            db.enablePersistence({ synchronizeTabs: true }).catch(function (e) { console.warn('Modo offline indisponível:', e && e.code); });
+        } catch (err) {
+            initError = err;
+            console.error('Erro ao iniciar Firebase:', err);
+        }
+
+        // ==========================================
+        // ESTADO E UTILITÁRIOS
+        // ==========================================
+        let products = [];
+        let transactions = [];        // vendas, reposições e ajustes do período carregado
+        let activeTab = 'vendas';
+        let unsubP = null, unsubT = null, txKey = '';
+        let gotP = false, gotT = false, pendingP = false, pendingT = false;
+        let chartBuckets = [];
+        const state = { movLimit: 100, lowLimit: 2 };
+
+        const TAMANHOS = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'NA'];
+        const PAGAMENTOS = {
+            pix:      { label: 'Pix',      card: false },
+            dinheiro: { label: 'Dinheiro', card: false },
+            debito:   { label: 'Débito',   card: true },
+            credito:  { label: 'Crédito',  card: true }
+        };
+        const MESES_ABREV = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+        const $ = (id) => document.getElementById(id);
+        const fmt = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
+        const num = (v) => Number(v) || 0;
+        const r2 = (v) => Math.round((Number(v) || 0) * 100) / 100;
+        const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const safeId = (cod) => String(cod).replace(/\//g, '-');
+        const sanitizeCode = (s) => String(s || '').toUpperCase().replace(/\s+/g, '-').replace(/[^A-Z0-9\-_.]/g, '');
+        const pad2 = (n) => String(n).padStart(2, '0');
+        const isoDate = (d) => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+        const hoje = () => isoDate(new Date());   // data LOCAL (valueAsDate usa UTC e erra à noite)
+        const fmtDate = (s) => { if (!s) return '—'; const p = String(s).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : s; };
+        const monthLabel = (ym) => { const p = ym.split('-'); return MESES_ABREV[parseInt(p[1], 10) - 1] + '/' + p[0].slice(2); };
+        const userEmail = () => (auth && auth.currentUser && auth.currentUser.email) || '';
+        const tamLabel = (p) => (p && p.tamanho && p.tamanho !== 'NA') ? ' · ' + p.tamanho : '';
+        const tipoOf = (t) => t.tipo || 'venda';
+        const lsGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* ignora */ } };
+
+        function toast(msg, kind) {
+            const colors = { ok: 'bg-emerald-600', warn: 'bg-amber-600', err: 'bg-rose-600', info: 'bg-stone-800' };
+            const el = document.createElement('div');
+            el.className = 'pointer-events-auto max-w-md text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-xl ' + (colors[kind] || colors.info);
+            el.textContent = msg;
+            $('toastBox').appendChild(el);
+            setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; }, 3600);
+            setTimeout(() => el.remove(), 4000);
+        }
+
+        function setStatus(text, kind) {
+            const styles = {
+                ok:   'text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200',
+                warn: 'text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200',
+                err:  'text-xs font-bold text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200'
+            };
+            $('syncStatus').innerText = text; $('syncStatus').className = 'hidden sm:inline ' + styles[kind];
+            $('syncStatusMobile').innerText = text; $('syncStatusMobile').className = styles[kind];
+        }
+
+        function updateSync() {
+            if (!auth || !auth.currentUser) { setStatus('Desconectado', 'warn'); return; }
+            if (!navigator.onLine) setStatus('Sem internet · salvando no aparelho', 'warn');
+            else if (!gotP || !gotT) setStatus('Sincronizando...', 'warn');
+            else if (pendingP || pendingT) setStatus('Enviando alterações...', 'warn');
+            else setStatus('Nuvem conectada', 'ok');
+        }
+
+        // ==========================================
+        // INICIALIZAÇÃO E LOGIN
+        // ==========================================
+        function initFilters() {
+            const sel = $('filterYear');
+            let html = '<option value="L12">Últimos 12 meses</option><option value="ALL">Todo o histórico</option>';
+            for (let y = 2025; y <= new Date().getFullYear() + 1; y++) html += '<option value="' + y + '">' + y + '</option>';
+            sel.innerHTML = html;
+            sel.value = 'L12';
+            const lim = parseInt(lsGet('mag_limite_baixo'), 10);
+            state.lowLimit = isNaN(lim) ? 2 : lim;
+            $('limiteBaixo').value = state.lowLimit;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initFilters();
+            renderApp();
+            window.addEventListener('online', updateSync);
+            window.addEventListener('offline', updateSync);
+
+            if (initError) {
+                setStatus('Erro ao iniciar', 'err');
+                showLoginError('Não foi possível iniciar o Firebase: ' + initError.message);
+                return;
+            }
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    $('loginScreen').classList.add('hidden');
+                    startListeners();
+                } else {
+                    stopListeners();
+                    products = []; transactions = [];
+                    $('loginScreen').classList.remove('hidden');
+                    updateSync();
+                    renderApp();
+                }
+            });
+        });
+
+        function showLoginError(msg) { $('loginInfo').classList.add('hidden'); const e = $('loginError'); e.textContent = msg; e.classList.remove('hidden'); }
+        function showLoginInfo(msg) { $('loginError').classList.add('hidden'); const e = $('loginInfo'); e.textContent = msg; e.classList.remove('hidden'); }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            if (!auth) { showLoginError('Firebase indisponível. Recarregue a página.'); return; }
+            const btn = $('loginBtn');
+            $('loginError').classList.add('hidden'); $('loginInfo').classList.add('hidden');
+            btn.disabled = true; btn.textContent = 'Entrando...';
+            try {
+                await auth.signInWithEmailAndPassword($('loginEmail').value.trim(), $('loginSenha').value);
+            } catch (ex) {
+                const map = {
+                    'auth/invalid-credential': 'E-mail ou senha incorretos.',
+                    'auth/wrong-password': 'E-mail ou senha incorretos.',
+                    'auth/user-not-found': 'E-mail ou senha incorretos.',
+                    'auth/too-many-requests': 'Muitas tentativas. Aguarde um pouco e tente de novo.',
+                    'auth/network-request-failed': 'Sem conexão com a internet.',
+                    'auth/operation-not-supported-in-this-environment': 'Abra o sistema pelo link publicado (https), não pelo arquivo no aparelho.'
+                };
+                showLoginError(map[ex.code] || ('Não foi possível entrar: ' + (ex.code || ex.message)));
+            }
+            btn.disabled = false; btn.textContent = 'Entrar';
+        }
+
+        async function handleResetSenha() {
+            if (!auth) return;
+            const email = $('loginEmail').value.trim();
+            if (!email) { showLoginError('Digite seu e-mail acima e toque em "Esqueci minha senha".'); return; }
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showLoginInfo('Enviamos um e-mail para redefinir a senha (veja também o spam).');
+            } catch (ex) {
+                showLoginError(ex.code === 'auth/invalid-email' ? 'E-mail inválido.' : 'Não foi possível enviar o e-mail agora.');
+            }
+        }
+
+        function handleLogout() { if (auth) auth.signOut(); }
+
+        // ==========================================
+        // SINCRONIZAÇÃO EM TEMPO REAL
+        // ==========================================
+        function onSyncError(what) {
+            return (error) => {
+                console.error('Erro ao sincronizar ' + what + ':', error);
+                if (error.code === 'permission-denied') {
+                    setStatus('Sem permissão no banco', 'err');
+                    toast('O Firebase negou o acesso. Confira as Regras do Firestore.', 'err');
+                } else {
+                    setStatus('Erro de sincronização', 'err');
+                }
+            };
+        }
+
+        function startListeners() {
+            stopListeners();
+            gotP = gotT = pendingP = pendingT = false;
+            updateSync();
+
+            unsubP = db.collection('produtos').onSnapshot({ includeMetadataChanges: true }, (snap) => {
+                products = snap.docs.map(d => d.data());
+                products.sort((a, b) => String(a.codigo).localeCompare(String(b.codigo), 'pt-BR', { numeric: true }));
+                gotP = true; pendingP = snap.metadata.hasPendingWrites;
+                updateSync(); renderApp();
+                if (!snap.metadata.fromCache) migrateLegacyStock();
+            }, onSyncError('produtos'));
+
+            subscribeTransactions();
+        }
+
+        // Só baixa as movimentações do período escolhido: poupa leituras do plano gratuito
+        function periodRange() {
+            const y = $('filterYear').value;
+            if (y === 'L12') { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - 11); return { start: isoDate(d), end: null }; }
+            if (y === 'ALL') return { start: null, end: null };
+            return { start: y + '-01-01', end: y + '-12-31' };
+        }
+
+        function subscribeTransactions() {
+            if (!db || !auth || !auth.currentUser) return;
+            const r = periodRange();
+            const key = (r.start || '') + '|' + (r.end || '');
+            if (key === txKey && unsubT) return;
+            txKey = key;
+            if (unsubT) unsubT();
+            gotT = false; updateSync();
+            let q = db.collection('transacoes');
+            if (r.start) q = q.where('date', '>=', r.start);
+            if (r.end) q = q.where('date', '<=', r.end);
+            unsubT = q.onSnapshot({ includeMetadataChanges: true }, (snap) => {
+                transactions = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+                gotT = true; pendingT = snap.metadata.hasPendingWrites;
+                updateSync(); renderApp();
+            }, onSyncError('movimentações'));
+        }
+
+        function stopListeners() {
+            if (unsubP) unsubP();
+            if (unsubT) unsubT();
+            unsubP = unsubT = null; txKey = '';
+        }
+
+        function onPeriodChange() { state.movLimit = 100; subscribeTransactions(); renderApp(); }
+
+        // Produtos antigos (sem campo "estoque"): calcula uma vez e grava
+        let migrating = false;
+        async function migrateLegacyStock() {
+            if (migrating || !navigator.onLine) return;
+            const legacy = products.filter(p => typeof p.estoque !== 'number');
+            if (!legacy.length) return;
+            migrating = true;
+            try {
+                for (const p of legacy) {
+                    const snap = await db.collection('transacoes').where('codigo', '==', p.codigo).get();
+                    let sold = 0;
+                    snap.forEach(d => { const t = d.data(); if (tipoOf(t) === 'venda') sold += num(t.qty); });
+                    await db.collection('produtos').doc(safeId(p.codigo)).update({ estoque: num(p.estoqueInicial) - sold });
+                }
+            } catch (e) { console.error('Migração de estoque:', e); }
+            migrating = false;
+        }
+
+        // ==========================================
+        // ABAS
+        // ==========================================
+        function switchTab(tab) {
+            activeTab = tab;
+            ['vendas', 'estoque', 'movs'].forEach(t => {
+                $('view-' + t).classList.toggle('hidden', t !== tab);
+                $('tab-' + t).className = (t === tab ? 'tab-active' : 'tab-inactive') + ' whitespace-nowrap px-3 sm:px-6 py-3 text-sm transition-all flex-1 lg:flex-none text-center';
+            });
+        }
+
+        // ==========================================
+        // CÁLCULOS
+        // ==========================================
+        function pricing(p) {
+            const custoBase = num(p.precoCompra) + num(p.taxaDeslocamento) + num(p.despesaFixa);
+            const aVista = custoBase * (1 + num(p.margem) / 100);
+            const maq = num(p.taxaMaquineta) / 100;
+            const cartao = aVista * (1 + maq);
+            return { custoBase, aVista, maq, cartao, lucroCartao: cartao - custoBase - cartao * maq, lucroAVista: aVista - custoBase };
+        }
+
+        function stockOf(p) {
+            if (typeof p.estoque === 'number') return p.estoque;
+            const sold = transactions.filter(t => t.codigo === p.codigo && tipoOf(t) === 'venda').reduce((s, t) => s + num(t.qty), 0);
+            return num(p.estoqueInicial) - sold;
+        }
+
+        // Efeito de uma movimentação no estoque
+        function stockEffect(t) {
+            const q = num(t.qty);
+            return tipoOf(t) === 'venda' ? -q : q;   // entrada soma; ajuste já vem com sinal
+        }
+
+        function saleCalc(t) {
+            const qty = num(t.qty);
+            if (typeof t.precoUnit === 'number') {
+                const receita = t.precoUnit * qty;
+                const taxa = receita * (num(t.taxaPct) / 100);
+                const custo = num(t.custoUnit) * qty;
+                return { receita, taxa, custo, lucro: receita - taxa - custo, qty };
+            }
+            // vendas antigas: usa o preço atual do cadastro (cartão)
+            const p = products.find(x => x.codigo === t.codigo);
+            if (!p) return { receita: 0, taxa: 0, custo: 0, lucro: 0, qty };
+            const pr = pricing(p);
+            return { receita: pr.cartao * qty, taxa: pr.cartao * pr.maq * qty, custo: pr.custoBase * qty, lucro: pr.lucroCartao * qty, qty };
+        }
+
+        function inPeriod(t) {
+            if (!t.date) return false;
+            const p = t.date.split('-');
+            const fy = $('filterYear').value, fm = $('filterMonth').value;
+            const okY = (fy === 'L12' || fy === 'ALL') ? true : p[0] === fy;
+            return okY && (fm === 'ALL' || p[1] === fm);
+        }
+
+        // ==========================================
+        // RENDER
+        // ==========================================
+        function renderApp() {
+            const vendas = transactions.filter(t => tipoOf(t) === 'venda' && inPeriod(t));
+
+            let kpiVenda = 0, kpiLucro = 0, kpiQtd = 0;
+            const salesByCode = {};
+            const pagamentos = {};
+            vendas.forEach(t => {
+                const c = saleCalc(t);
+                kpiVenda += c.receita; kpiLucro += c.lucro; kpiQtd += c.qty;
+                salesByCode[t.codigo] = (salesByCode[t.codigo] || 0) + c.qty;
+                const key = t.pagamento && PAGAMENTOS[t.pagamento] ? t.pagamento : 'outro';
+                if (!pagamentos[key]) pagamentos[key] = { receita: 0, n: 0 };
+                pagamentos[key].receita += c.receita; pagamentos[key].n += 1;
+            });
+
+            const rank = products.map(p => {
+                const pr = pricing(p);
+                return { codigo: p.codigo, desc: p.descricao + tamLabel(p), qtyPeriod: salesByCode[p.codigo] || 0, lucroUnit: pr.lucroCartao, estoque: stockOf(p), custo: pr.custoBase, preco: pr.cartao };
+            });
+
+            $('kpiVendaGeral').innerText = fmt(kpiVenda);
+            $('kpiLucroGeral').innerText = fmt(kpiLucro);
+            $('kpiPecasVendidas').innerText = kpiQtd;
+            $('kpiTicket').innerText = fmt(vendas.length ? kpiVenda / vendas.length : 0);
+
+            const li = (i, name, right, rightCls) => `
+                <li class="flex justify-between items-center gap-2 text-sm border-b border-stone-100 pb-2 last:border-0">
+                    <span class="font-medium text-stone-700 truncate"><span class="text-stone-400 mr-2">${i}º</span>${name}</span>
+                    <span class="font-bold whitespace-nowrap ${rightCls}">${right}</span>
+                </li>`;
+
+            const topVendidas = rank.filter(r => r.qtyPeriod > 0).sort((a, b) => b.qtyPeriod - a.qtyPeriod).slice(0, 3);
+            $('listTopVendidas').innerHTML = topVendidas.map((v, i) => li(i + 1, esc(v.codigo) + ' - ' + esc(v.desc), v.qtyPeriod + ' un', 'bg-stone-100 px-2 py-0.5 rounded text-stone-600')).join('')
+                || '<p class="text-xs text-stone-400">Nenhuma venda no período.</p>';
+
+            const topMargem = [...rank].sort((a, b) => b.lucroUnit - a.lucroUnit).slice(0, 3);
+            $('listTopMargem').innerHTML = topMargem.map((v, i) => li(i + 1, esc(v.codigo) + ' - ' + esc(v.desc), fmt(v.lucroUnit) + '/pç', 'text-magnolia-700')).join('')
+                || '<p class="text-xs text-stone-400">Nenhum produto cadastrado.</p>';
+
+            const payOrder = ['pix', 'dinheiro', 'debito', 'credito', 'outro'];
+            const payLabel = (k) => k === 'outro' ? 'Não informado' : PAGAMENTOS[k].label;
+            const maxPay = Math.max(0, ...Object.values(pagamentos).map(x => x.receita));
+            $('listPagamentos').innerHTML = payOrder.filter(k => pagamentos[k]).map(k => {
+                const w = maxPay ? Math.max(4, Math.round(pagamentos[k].receita / maxPay * 100)) : 0;
+                return `<li class="text-sm">
+                    <div class="flex justify-between gap-2"><span class="font-semibold text-stone-700">${payLabel(k)} <span class="text-stone-400 font-medium">(${pagamentos[k].n})</span></span><span class="font-bold text-stone-800">${fmt(pagamentos[k].receita)}</span></div>
+                    <div class="h-1.5 bg-stone-100 rounded-full mt-1"><div class="h-1.5 bg-sky-500 rounded-full" style="width:${w}%"></div></div>
+                </li>`;
+            }).join('') || '<p class="text-xs text-stone-400">Nenhuma venda no período.</p>';
+
+            renderChart(vendas);
+
+            // Estoque
+            const pos = rank.map(r => Math.max(0, r.estoque));
+            $('kpiEstoqueAtual').innerText = pos.reduce((s, q) => s + q, 0);
+            $('kpiEstoqueCusto').innerText = fmt(rank.reduce((s, r, i) => s + pos[i] * r.custo, 0));
+            $('kpiEstoqueVenda').innerText = fmt(rank.reduce((s, r, i) => s + pos[i] * r.preco, 0));
+            $('kpiEstoqueVendidas').innerText = kpiQtd;
+
+            const baixos = rank.filter(r => r.estoque <= state.lowLimit).sort((a, b) => a.estoque - b.estoque);
+            $('listBaixo').innerHTML = baixos.slice(0, 8).map(r => {
+                const cls = r.estoque <= 0 ? 'text-rose-700 bg-rose-50' : 'text-amber-700 bg-amber-50';
+                return `<li class="flex items-center justify-between gap-2 text-sm border-b border-stone-100 pb-2 last:border-0">
+                    <span class="font-medium text-stone-700 truncate">${esc(r.codigo)} - ${esc(r.desc)}</span>
+                    <span class="flex items-center gap-2 whitespace-nowrap">
+                        <span class="px-2 py-0.5 rounded text-xs font-bold ${cls}">${r.estoque <= 0 ? 'Esgotado' : r.estoque + ' un'}</span>
+                        <button type="button" data-code="${esc(r.codigo)}" onclick="rowAct('restock', this)" class="text-xs font-bold text-sky-700 hover:text-sky-900">Repor</button>
+                    </span>
+                </li>`;
+            }).join('') + (baixos.length > 8 ? `<p class="text-xs text-stone-400 pt-1">+ ${baixos.length - 8} outras peças com estoque baixo (veja na lista abaixo).</p>` : '')
+                || '<p class="text-xs text-stone-400">Nenhuma peça com estoque baixo.</p>';
+
+            const topSaidas = rank.filter(r => r.qtyPeriod > 0).sort((a, b) => b.qtyPeriod - a.qtyPeriod).slice(0, 5);
+            $('listTopSaidas').innerHTML = topSaidas.map((v, i) => li(i + 1, esc(v.codigo) + ' - ' + esc(v.desc), '-' + v.qtyPeriod + ' un', 'text-rose-600')).join('')
+                || '<p class="text-xs text-stone-400">Nenhuma movimentação.</p>';
+
+            renderTableOnly();
+            renderMovs();
+        }
+
+        function renderChart(vendas) {
+            const fm = $('filterMonth').value, fy = $('filterYear').value;
+            const map = new Map();
+            const add = (key, label, c) => {
+                let b = map.get(key);
+                if (!b) { b = { key, label, venda: 0, lucro: 0, qty: 0 }; map.set(key, b); }
+                b.venda += c.receita; b.lucro += c.lucro; b.qty += c.qty;
+            };
+            let buckets = [];
+            if (fm !== 'ALL') {
+                $('chartTitle').innerHTML = '<i class="ph-fill ph-chart-bar text-emerald-600 text-lg"></i> Vendas por dia';
+                vendas.forEach(t => { const p = t.date.split('-'); add(t.date, p[2] + '/' + p[1], saleCalc(t)); });
+                buckets = [...map.values()].sort((a, b) => a.key.localeCompare(b.key));
+            } else {
+                $('chartTitle').innerHTML = '<i class="ph-fill ph-chart-bar text-emerald-600 text-lg"></i> Vendas por mês';
+                vendas.forEach(t => add(t.date.slice(0, 7), monthLabel(t.date.slice(0, 7)), saleCalc(t)));
+                let keys = [];
+                if (fy === 'L12') {
+                    const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - 11);
+                    for (let i = 0; i < 12; i++) { keys.push(d.getFullYear() + '-' + pad2(d.getMonth() + 1)); d.setMonth(d.getMonth() + 1); }
+                } else if (fy !== 'ALL') {
+                    for (let i = 1; i <= 12; i++) keys.push(fy + '-' + pad2(i));
+                } else if (map.size) {
+                    const sorted = [...map.keys()].sort();
+                    let [y, m] = sorted[0].split('-').map(Number);
+                    const last = sorted[sorted.length - 1];
+                    for (let guard = 0; guard < 240; guard++) {
+                        const k = y + '-' + pad2(m); keys.push(k);
+                        if (k === last) break;
+                        m++; if (m > 12) { m = 1; y++; }
+                    }
+                }
+                buckets = keys.map(k => map.get(k) || { key: k, label: monthLabel(k), venda: 0, lucro: 0, qty: 0 });
+            }
+            chartBuckets = buckets;
+            const box = $('chartBox');
+            const oldScroller = box.firstElementChild;
+            const hadChart = !!(oldScroller && oldScroller.dataset && oldScroller.dataset.chart);
+            const oldLeft = hadChart ? oldScroller.scrollLeft : 0;
+            const max = Math.max(0, ...buckets.map(b => b.venda));
+            if (!buckets.length || max <= 0) {
+                box.innerHTML = '<p class="text-sm text-stone-400 py-10 text-center">Sem vendas no período.</p>';
+                $('chartInfo').textContent = '';
+                return;
+            }
+            box.innerHTML = '<div data-chart="1" class="flex items-stretch gap-1.5 overflow-x-auto pb-1">' + buckets.map((b, i) => {
+                const hv = b.venda > 0 ? Math.max(3, b.venda / max * 100) : 0;
+                const hl = b.lucro > 0 ? Math.max(3, b.lucro / max * 100) : 0;
+                return `<button type="button" onclick="showBucket(${i})" title="${esc(b.label)}: venda ${fmt(b.venda)} · lucro ${fmt(b.lucro)}" class="flex flex-col items-center min-w-[2.6rem] flex-1 focus:outline-none">
+                    <div class="h-40 w-full flex items-end justify-center gap-0.5">
+                        <div class="w-3 sm:w-4 rounded-t bg-emerald-500" style="height:${hv}%"></div>
+                        <div class="w-3 sm:w-4 rounded-t bg-magnolia-500" style="height:${hl}%"></div>
+                    </div>
+                    <span class="text-[10px] text-stone-500 mt-1 whitespace-nowrap">${esc(b.label)}</span>
+                </button>`;
+            }).join('') + '</div>';
+            const scroller = box.firstElementChild;
+            const chartKey = fm + '|' + fy;
+            // mesmo filtro: mantém onde o usuário estava; filtro novo: mostra o período mais recente
+            scroller.scrollLeft = (hadChart && state.chartKey === chartKey) ? oldLeft : scroller.scrollWidth;
+            state.chartKey = chartKey;
+            let best = 0; buckets.forEach((b, i) => { if (b.venda > buckets[best].venda) best = i; });
+            showBucket(best, true);
+        }
+
+        function showBucket(i, isBest) {
+            const b = chartBuckets[i]; if (!b) return;
+            $('chartInfo').textContent = (isBest ? 'Melhor período · ' : '') + b.label + ' — venda ' + fmt(b.venda) + ' · lucro ' + fmt(b.lucro) + ' · ' + b.qty + ' peça(s)';
+        }
+
+        function renderTableOnly() {
+            const search = $('searchInput').value.toLowerCase().trim();
+            const low = state.lowLimit;
+            const rows = products.filter(p =>
+                !search ||
+                String(p.descricao || '').toLowerCase().includes(search) ||
+                String(p.codigo || '').toLowerCase().includes(search) ||
+                String(p.colecao || '').toLowerCase().includes(search) ||
+                String(p.tamanho || '').toLowerCase() === search
+            ).map(p => {
+                const pr = pricing(p);
+                const est = stockOf(p);
+                const stockCol = est <= 0 ? 'text-rose-700 bg-rose-50' : est <= low ? 'text-amber-700 bg-amber-50' : 'text-emerald-700 bg-emerald-50';
+                const c = esc(p.codigo);
+                return `
+                    <tr class="hover:bg-stone-50/50">
+                        <td class="py-2.5 px-4 font-mono font-bold text-stone-700 whitespace-nowrap">${c}</td>
+                        <td class="py-2.5 px-4 max-w-[260px]">
+                            <div class="flex items-center gap-2 min-w-0">
+                                ${p.tamanho ? `<span class="shrink-0 text-[10px] font-bold text-magnolia-700 bg-magnolia-100 border border-magnolia-200 px-1.5 py-0.5 rounded">${esc(p.tamanho)}</span>` : ''}
+                                <span class="font-medium text-stone-900 truncate" title="${esc(p.descricao)}">${esc(p.descricao)}</span>
+                            </div>
+                            ${p.colecao ? `<div class="text-[11px] text-magnolia-600 font-semibold truncate">${esc(p.colecao)}</div>` : ''}
+                        </td>
+                        <td class="py-2.5 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${stockCol}">${est}</span></td>
+                        <td class="py-2.5 px-4 text-right font-mono text-stone-600">${fmt(pr.custoBase)}</td>
+                        <td class="py-2.5 px-4 text-center"><span class="text-xs bg-stone-100 px-1.5 py-0.5 rounded">${esc(p.margem)}%</span></td>
+                        <td class="py-2.5 px-4 text-right whitespace-nowrap">
+                            <div class="font-mono font-bold text-emerald-700">${fmt(pr.cartao)}</div>
+                            <div class="font-mono text-[11px] text-stone-400">à vista ${fmt(pr.aVista)}</div>
+                        </td>
+                        <td class="py-2.5 px-4 text-center whitespace-nowrap">
+                            <button type="button" data-code="${c}" onclick="rowAct('sell', this)" title="Vender" aria-label="Vender" class="text-stone-400 hover:text-emerald-600 mx-1"><i class="ph-bold ph-shopping-bag"></i></button>
+                            <button type="button" data-code="${c}" onclick="rowAct('restock', this)" title="Repor estoque" aria-label="Repor estoque" class="text-stone-400 hover:text-sky-600 mx-1"><i class="ph-bold ph-package"></i></button>
+                            <button type="button" data-code="${c}" onclick="rowAct('edit', this)" title="Editar" aria-label="Editar" class="text-stone-400 hover:text-magnolia-600 mx-1"><i class="ph-bold ph-pencil-simple"></i></button>
+                            <button type="button" data-code="${c}" onclick="rowAct('delete', this)" title="Excluir" aria-label="Excluir" class="text-stone-400 hover:text-rose-600 mx-1"><i class="ph-bold ph-trash"></i></button>
+                        </td>
+                    </tr>`;
+            });
+            $('inventoryTbody').innerHTML = rows.join('') ||
+                '<tr><td colspan="7" class="py-8 text-center text-sm text-stone-400">Nenhum produto encontrado.</td></tr>';
+        }
+
+        function rowAct(action, el) {
+            const code = el.dataset.code;
+            if (action === 'sell') openSaleModal(code);
+            else if (action === 'restock') openRestockModal(code);
+            else if (action === 'edit') editProduct(code);
+            else if (action === 'delete') deleteProduct(code);
+        }
+
+        // ---------- Movimentações ----------
+        function movList() {
+            const f = $('movFilter').value;
+            return transactions
+                .filter(t => inPeriod(t) && (f === 'all' || tipoOf(t) === f))
+                .sort((a, b) => (b.date || '').localeCompare(a.date || '') || num(b.ts) - num(a.ts));
+        }
+
+        function renderMovs() {
+            const list = movList();
+            const shown = list.slice(0, state.movLimit);
+            const badge = { venda: 'bg-emerald-50 text-emerald-700', entrada: 'bg-sky-50 text-sky-700', ajuste: 'bg-amber-50 text-amber-700' };
+            const nome = { venda: 'Venda', entrada: 'Reposição', ajuste: 'Ajuste' };
+            $('movTbody').innerHTML = shown.map(t => {
+                const tp = tipoOf(t);
+                const p = products.find(x => x.codigo === t.codigo);
+                const desc = t.descricao || (p ? p.descricao + tamLabel(p) : '');
+                let pag = '—', total = '—', lucro = '—', lucroCls = 'text-stone-600';
+                if (tp === 'venda') {
+                    const c = saleCalc(t);
+                    pag = t.pagamento && PAGAMENTOS[t.pagamento] ? PAGAMENTOS[t.pagamento].label : '—';
+                    total = fmt(c.receita); lucro = fmt(c.lucro);
+                    lucroCls = c.lucro < 0 ? 'text-rose-600' : 'text-magnolia-700';
+                }
+                const qty = tp === 'venda' ? '-' + num(t.qty) : (num(t.qty) > 0 ? '+' : '') + num(t.qty);
+                const qtyCls = (tp === 'venda' || num(t.qty) < 0) ? 'text-rose-600' : 'text-emerald-700';
+                const extra = [t.cliente, t.obs].filter(Boolean).map(esc).join(' · ');
+                const por = t.por ? esc(String(t.por).split('@')[0]) : '';
+                return `<tr class="hover:bg-stone-50/50">
+                    <td class="py-2.5 px-4 whitespace-nowrap text-stone-600">${fmtDate(t.date)}</td>
+                    <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] font-bold ${badge[tp] || badge.venda}">${nome[tp] || tp}</span></td>
+                    <td class="py-2.5 px-4 max-w-[280px]">
+                        <div class="font-medium text-stone-900 truncate"><span class="font-mono font-bold text-stone-700">${esc(t.codigo)}</span> ${esc(desc)}</div>
+                        ${(extra || por) ? `<div class="text-[11px] text-stone-400 truncate">${extra}${extra && por ? ' · ' : ''}${por ? 'por ' + por : ''}</div>` : ''}
+                    </td>
+                    <td class="py-2.5 px-4 text-center font-bold ${qtyCls}">${qty}</td>
+                    <td class="py-2.5 px-4 text-stone-600 whitespace-nowrap">${pag}</td>
+                    <td class="py-2.5 px-4 text-right font-mono text-stone-700 whitespace-nowrap">${total}</td>
+                    <td class="py-2.5 px-4 text-right font-mono font-bold whitespace-nowrap ${lucroCls}">${lucro}</td>
+                    <td class="py-2.5 px-4 text-center whitespace-nowrap">
+                        ${tp === 'venda' ? `<button type="button" data-id="${esc(t.id)}" onclick="movAct('edit', this)" title="Editar venda" aria-label="Editar venda" class="text-stone-400 hover:text-magnolia-600 mx-1"><i class="ph-bold ph-pencil-simple"></i></button>` : ''}
+                        <button type="button" data-id="${esc(t.id)}" onclick="movAct('del', this)" title="Desfazer / excluir" aria-label="Desfazer" class="text-stone-400 hover:text-rose-600 mx-1"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
+                    </td>
+                </tr>`;
+            }).join('') || '<tr><td colspan="8" class="py-8 text-center text-sm text-stone-400">Nenhuma movimentação no período.</td></tr>';
+            $('movMore').classList.toggle('hidden', list.length <= state.movLimit);
+        }
+
+        function movAct(action, el) {
+            const t = transactions.find(x => x.id === el.dataset.id);
+            if (!t) return;
+            if (action === 'edit') openSaleModal(null, t);
+            else deleteMovement(t);
+        }
+
+        function onLimiteChange() {
+            const v = parseInt($('limiteBaixo').value, 10);
+            state.lowLimit = isNaN(v) || v < 0 ? 0 : v;
+            lsSet('mag_limite_baixo', String(state.lowLimit));
+            renderApp();
+        }
+
+        // ==========================================
+        // ESCRITA SEGURA NO BANCO (estoque + movimentação juntos)
+        // ==========================================
+        const wait = (ms) => new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { code: 'timeout' })), ms));
+
+        // Confirma no servidor quando há internet (evita vender a última peça duas vezes).
+        // Sem internet, grava no aparelho e envia quando a conexão voltar.
+        async function stockTransaction(opts) {
+            const prodRef = db.collection('produtos').doc(safeId(opts.code));
+            const FV = firebase.firestore.FieldValue;
+            const mov = opts.mov;
+
+            if (navigator.onLine) {
+                const work = db.runTransaction(async (tx) => {
+                    const snap = await tx.get(prodRef);
+                    if (snap.exists) {
+                        const d = snap.data();
+                        const cur = typeof d.estoque === 'number' ? d.estoque : opts.fallbackStock;
+                        const next = cur + opts.delta;
+                        if (opts.delta < 0 && next < 0) throw Object.assign(new Error('Estoque insuficiente'), { code: 'estoque', disponivel: cur });
+                        tx.update(prodRef, { estoque: next });
+                    } else if (!mov.del) {
+                        throw Object.assign(new Error('Produto não encontrado'), { code: 'sem-produto' });
+                    }
+                    if (mov.del) tx.delete(mov.ref); else tx.set(mov.ref, mov.data);
+                });
+                work.catch(() => {});
+                await Promise.race([work, wait(15000)]);
+                return 'ok';
+            }
+
+            const p = products.find(x => x.codigo === opts.code);
+            if (!p && !mov.del) throw Object.assign(new Error('Produto não encontrado'), { code: 'sem-produto' });
+            if (p) {
+                const cur = stockOf(p);
+                if (opts.delta < 0 && cur + opts.delta < 0) throw Object.assign(new Error('Estoque insuficiente'), { code: 'estoque', disponivel: cur });
+            }
+            const batch = db.batch();
+            if (p) batch.update(prodRef, { estoque: typeof p.estoque === 'number' ? FV.increment(opts.delta) : stockOf(p) + opts.delta });
+            if (mov.del) batch.delete(mov.ref); else batch.set(mov.ref, mov.data);
+            batch.commit().catch(e => console.error(e));
+            return 'queued';
+        }
+
+        async function commitSmart(batch) {
+            const p = batch.commit();
+            p.catch(() => {});
+            if (!navigator.onLine) return 'queued';
+            try { await Promise.race([p, wait(8000)]); return 'ok'; }
+            catch (e) { if (e.code === 'timeout') return 'queued'; throw e; }
+        }
+
+        function explain(e) {
+            if (!e) return 'Erro desconhecido.';
+            if (e.code === 'estoque') return 'Estoque insuficiente (disponível: ' + e.disponivel + ').';
+            if (e.code === 'sem-produto') return 'Esse produto não existe mais.';
+            if (e.code === 'timeout') return 'A conexão está lenta. Confira em Movimentações se foi registrado antes de tentar de novo.';
+            if (e.code === 'permission-denied') return 'O Firebase negou o acesso. Confira as Regras do Firestore.';
+            return e.message || 'Erro desconhecido.';
+        }
+
+        const doneMsg = (r, ok) => r === 'queued' ? 'Salvo no aparelho. Envia quando a internet voltar.' : ok;
+
+        // ==========================================
+        // VENDA
+        // ==========================================
+        let priceTouched = false, taxaTouched = false;
+
+        function fillProductSelect(sel, opts) {
+            let html = '<option value="" disabled selected>Selecione a peça...</option>';
+            products.forEach(p => {
+                const est = stockOf(p);
+                const label = esc(p.codigo) + ' - ' + esc(p.descricao) + esc(tamLabel(p));
+                if (est > 0 || (opts && opts.includeEmpty)) html += `<option value="${esc(p.codigo)}">${label} (${est} disp.)</option>`;
+                else html += `<option value="${esc(p.codigo)}" disabled>${label} - ESGOTADO</option>`;
+            });
+            sel.innerHTML = html;
+        }
+
+        function setPay(v) {
+            $('salePay').value = v;
+            $('salePayChips').innerHTML = Object.keys(PAGAMENTOS).map(k => {
+                const on = k === v;
+                return `<button type="button" onclick="onPayClick('${k}')" class="px-2 py-2.5 rounded-lg border text-xs sm:text-sm font-bold transition-all active:scale-95 ${on ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-stone-600 border-stone-200 hover:border-emerald-400'}">${PAGAMENTOS[k].label}</button>`;
+            }).join('');
+            $('saleTaxaWrap').classList.toggle('hidden', !PAGAMENTOS[v].card);
+        }
+
+        function selectedSaleProduct() { return products.find(x => x.codigo === $('saleProductSelect').value); }
+
+        function onPayClick(v) {
+            setPay(v);
+            const p = selectedSaleProduct();
+            if (PAGAMENTOS[v].card && p && !taxaTouched) $('saleTaxa').value = num(p.taxaMaquineta);
+            if (!PAGAMENTOS[v].card) $('saleTaxa').value = 0;
+            autoPrice();
+            updateSalePreview();
+        }
+
+        function currentTaxa() { return PAGAMENTOS[$('salePay').value].card ? num($('saleTaxa').value) : 0; }
+
+        function tablePrice(p) {
+            const pr = pricing(p);
+            return r2(pr.aVista * (1 + currentTaxa() / 100));
+        }
+
+        function autoPrice() {
+            const p = selectedSaleProduct();
+            if (!p || priceTouched) return;
+            $('salePreco').value = tablePrice(p).toFixed(2);
+        }
+
+        function onSaleProductChange() {
+            priceTouched = false; taxaTouched = false;
+            const p = selectedSaleProduct();
+            if (p && PAGAMENTOS[$('salePay').value].card) $('saleTaxa').value = num(p.taxaMaquineta);
+            autoPrice(); updateSalePreview();
+        }
+        function onSalePriceInput() { priceTouched = true; updateSalePreview(); }
+        function onSaleTaxaInput() { taxaTouched = true; autoPrice(); updateSalePreview(); }
+
+        function updateSalePreview() {
+            const p = selectedSaleProduct();
+            const qty = Math.max(0, parseInt($('saleQty').value, 10) || 0);
+            const price = num($('salePreco').value);
+            const taxaPct = currentTaxa();
+            const total = price * qty;
+            const taxa = total * taxaPct / 100;
+            const custo = p ? pricing(p).custoBase * qty : 0;
+            const lucro = total - taxa - custo;
+            $('sumTotal').textContent = fmt(total);
+            $('sumTaxa').textContent = fmt(taxa);
+            $('sumLucro').textContent = fmt(lucro);
+            $('sumLucro').className = 'font-mono ' + (lucro < 0 ? 'text-rose-600' : 'text-magnolia-700');
+            let hint = '';
+            if (p) {
+                const tab = tablePrice(p);
+                if (tab > 0 && price < tab - 0.005) hint = 'Desconto de ' + (((tab - price) / tab) * 100).toFixed(1).replace('.', ',') + '% sobre o preço de tabela (' + fmt(tab) + ').';
+                else if (tab > 0 && price > tab + 0.005) hint = 'Acima do preço de tabela (' + fmt(tab) + ').';
+                else if (tab > 0) hint = 'Preço de tabela (' + fmt(tab) + ').';
+                if (lucro < 0) hint += ' Atenção: venda com prejuízo.';
+            }
+            $('sumHint').textContent = hint;
+        }
+
+        function openSaleModal(code, editing) {
+            if (!products.length) { toast('Cadastre um produto primeiro.', 'warn'); return; }
+            const sel = $('saleProductSelect');
+            fillProductSelect(sel, { includeEmpty: !!editing });
+            priceTouched = false; taxaTouched = false;
+            $('saleEditId').value = '';
+            $('saleTitle').innerHTML = '<i class="ph-bold ph-shopping-bag"></i> Registrar Venda';
+            $('saleSubmitBtn').textContent = 'Confirmar Venda';
+            $('saleSubmitBtn').disabled = false;
+            sel.disabled = false;
+            $('saleDate').value = hoje();
+            $('saleQty').value = 1;
+            $('saleCliente').value = '';
+            setPay('pix'); $('saleTaxa').value = 0;
+
+            if (editing) {
+                const t = editing;
+                $('saleEditId').value = t.id;
+                $('saleTitle').innerHTML = '<i class="ph-bold ph-pencil"></i> Editar Venda';
+                $('saleSubmitBtn').textContent = 'Salvar Alterações';
+                sel.value = t.codigo; sel.disabled = true;
+                $('saleDate').value = t.date;
+                $('saleQty').value = num(t.qty);
+                $('saleCliente').value = t.cliente || '';
+                const p = products.find(x => x.codigo === t.codigo);
+                const pay = t.pagamento && PAGAMENTOS[t.pagamento] ? t.pagamento : 'credito';
+                setPay(pay);
+                if (typeof t.precoUnit === 'number') {
+                    $('saleTaxa').value = num(t.taxaPct);
+                    $('salePreco').value = t.precoUnit.toFixed(2);
+                } else if (p) {
+                    $('saleTaxa').value = num(p.taxaMaquineta);
+                    $('salePreco').value = r2(pricing(p).cartao).toFixed(2);
+                }
+                priceTouched = true; taxaTouched = true;
+            } else if (code) {
+                sel.value = code;
+                onSaleProductChange();
+            }
+            if (!editing && !code) $('salePreco').value = '';
+            updateSalePreview();
+            $('saleModal').classList.remove('hidden');
+        }
+        function closeSaleModal() { $('saleModal').classList.add('hidden'); }
+
+        async function handleSaleSubmit(e) {
+            e.preventDefault();
+            const editId = $('saleEditId').value;
+            const code = $('saleProductSelect').value;
+            const qty = parseInt($('saleQty').value, 10);
+            const date = $('saleDate').value;
+            const pay = $('salePay').value;
+            const price = r2($('salePreco').value);
+            if (!code || !date || !qty || qty < 1) return;
+            if (!(price >= 0) || $('salePreco').value === '') { toast('Informe o valor cobrado.', 'warn'); return; }
+
+            const p = products.find(x => x.codigo === code);
+            if (!p) { toast('Produto não encontrado.', 'err'); return; }
+            const old = editId ? transactions.find(x => x.id === editId) : null;
+            const available = stockOf(p) + (old ? num(old.qty) : 0);
+            if (qty > available) { toast('Estoque insuficiente (disponível: ' + available + ').', 'err'); return; }
+
+            const pr = pricing(p);
+            const data = {
+                tipo: 'venda', codigo: code, descricao: p.descricao + tamLabel(p), date, qty,
+                pagamento: pay, precoUnit: price, custoUnit: r2(pr.custoBase),
+                taxaPct: PAGAMENTOS[pay].card ? num($('saleTaxa').value) : 0,
+                cliente: $('saleCliente').value.trim(),
+                ts: old && old.ts ? old.ts : Date.now(),
+                por: old && old.por ? old.por : userEmail()
+            };
+            if (old) data.editadoPor = userEmail();
+
+            const btn = $('saleSubmitBtn'); btn.disabled = true;
+            try {
+                const ref = old ? db.collection('transacoes').doc(old.id) : db.collection('transacoes').doc();
+                const r = await stockTransaction({
+                    code, delta: old ? num(old.qty) - qty : -qty, fallbackStock: stockOf(p),
+                    mov: { ref, data }
+                });
+                closeSaleModal();
+                toast(doneMsg(r, old ? 'Venda atualizada.' : 'Venda registrada.'), r === 'queued' ? 'warn' : 'ok');
+            } catch (ex) { toast(explain(ex), 'err'); }
+            btn.disabled = false;
+        }
+
+        // ==========================================
+        // REPOSIÇÃO
+        // ==========================================
+        function openRestockModal(code) {
+            if (!products.length) { toast('Cadastre um produto primeiro.', 'warn'); return; }
+            fillProductSelect($('restockProduct'), { includeEmpty: true });
+            $('restockDate').value = hoje();
+            $('restockQty').value = 1;
+            $('restockObs').value = '';
+            $('restockSubmitBtn').disabled = false;
+            if (code) $('restockProduct').value = code;
+            $('restockModal').classList.remove('hidden');
+        }
+        function closeRestockModal() { $('restockModal').classList.add('hidden'); }
+
+        async function handleRestockSubmit(e) {
+            e.preventDefault();
+            const code = $('restockProduct').value;
+            const qty = parseInt($('restockQty').value, 10);
+            const date = $('restockDate').value;
+            if (!code || !date || !qty || qty < 1) return;
+            const p = products.find(x => x.codigo === code);
+            if (!p) { toast('Produto não encontrado.', 'err'); return; }
+            const btn = $('restockSubmitBtn'); btn.disabled = true;
+            try {
+                const data = { tipo: 'entrada', codigo: code, descricao: p.descricao + tamLabel(p), date, qty, obs: $('restockObs').value.trim(), ts: Date.now(), por: userEmail() };
+                const r = await stockTransaction({ code, delta: qty, fallbackStock: stockOf(p), mov: { ref: db.collection('transacoes').doc(), data } });
+                closeRestockModal();
+                toast(doneMsg(r, '+' + qty + ' un. adicionadas ao estoque.'), r === 'queued' ? 'warn' : 'ok');
+            } catch (ex) { toast(explain(ex), 'err'); }
+            btn.disabled = false;
+        }
+
+        // ==========================================
+        // DESFAZER MOVIMENTAÇÃO
+        // ==========================================
+        async function deleteMovement(t) {
+            const tp = tipoOf(t);
+            const nome = { venda: 'esta venda', entrada: 'esta reposição', ajuste: 'este ajuste' }[tp] || 'esta movimentação';
+            const efeito = -stockEffect(t);
+            const p = products.find(x => x.codigo === t.codigo);
+            const txt = tp === 'venda'
+                ? 'Desfazer ' + nome + ' de ' + num(t.qty) + ' un. de ' + t.codigo + '? As peças voltam para o estoque.'
+                : 'Desfazer ' + nome + ' de ' + t.codigo + '? O estoque será ajustado em ' + (efeito > 0 ? '+' : '') + efeito + '.';
+            if (!confirm(txt)) return;
+            try {
+                const r = await stockTransaction({
+                    code: t.codigo, delta: efeito, fallbackStock: p ? stockOf(p) : 0,
+                    mov: { ref: db.collection('transacoes').doc(t.id), del: true }
+                });
+                toast(doneMsg(r, 'Movimentação desfeita.'), r === 'queued' ? 'warn' : 'ok');
+            } catch (ex) { toast(explain(ex), 'err'); }
+        }
+
+        // ==========================================
+        // PRODUTO
+        // ==========================================
+        let productMode = 'new';
+        let selSizes = {};   // tamanho -> quantidade inicial
+
+        function nextCode() {
+            let max = 0;
+            products.forEach(p => { const m = /^E-(\d+)/.exec(p.codigo); if (m) max = Math.max(max, parseInt(m[1], 10)); });
+            return 'E-' + pad2(max + 1);
+        }
+
+        function renderSizeChips() {
+            $('sizeChips').innerHTML = TAMANHOS.map(t => {
+                const on = selSizes[t] !== undefined;
+                return `<button type="button" onclick="toggleSize('${t}')" title="${t === 'NA' ? 'Não se aplica / tamanho único' : 'Tamanho ' + t}" class="min-w-[3rem] px-3 py-2 rounded-lg border text-sm font-bold transition-all active:scale-95 ${on ? 'bg-magnolia-600 text-white border-magnolia-600 shadow-sm' : 'bg-white text-stone-600 border-stone-200 hover:border-magnolia-400'}">${t}</button>`;
+            }).join('');
+        }
+
+        function renderSizeQty() {
+            const box = $('sizeQtyBox');
+            if (productMode === 'edit') { box.innerHTML = ''; return; }
+            const sizes = TAMANHOS.filter(t => selSizes[t] !== undefined);
+            box.innerHTML = sizes.map(t => `
+                <label class="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-lg px-2 py-1.5">
+                    <span class="text-xs font-bold text-magnolia-700 w-8">${t === 'NA' ? 'Único' : t}</span>
+                    <input type="number" min="0" value="${selSizes[t]}" oninput="setSizeQty('${t}', this.value)" aria-label="Quantidade ${t}" class="w-full px-2 py-1 border border-stone-200 rounded text-sm font-bold text-center">
+                    <span class="text-[10px] text-stone-400">un</span>
+                </label>`).join('');
+        }
+
+        function setSizeQty(t, v) { selSizes[t] = Math.max(0, parseInt(v, 10) || 0); }
+
+        function updateCodesPreview() {
+            const el = $('codesPreview');
+            if (productMode === 'edit') { el.textContent = ''; return; }
+            const sizes = TAMANHOS.filter(t => selSizes[t] !== undefined);
+            const base = sanitizeCode($('inputCodigo').value) || '...';
+            if (!sizes.length) { el.textContent = 'Escolha um ou mais tamanhos. Cada tamanho vira um cadastro com estoque próprio.'; return; }
+            el.textContent = sizes.length > 1
+                ? 'Serão criados ' + sizes.length + ' cadastros: ' + sizes.map(s => base + '-' + s).join(', ')
+                : 'Será criado o código ' + base;
+        }
+
+        function toggleSize(t) {
+            if (productMode === 'edit') { selSizes = {}; selSizes[t] = 0; }
+            else if (t === 'NA') { selSizes = selSizes.NA !== undefined ? {} : { NA: 1 }; }
+            else {
+                delete selSizes.NA;
+                if (selSizes[t] !== undefined) delete selSizes[t]; else selSizes[t] = 1;
+            }
+            renderSizeChips(); renderSizeQty(); updateCodesPreview();
+        }
+
+        function onCodigoInput() { updateCodesPreview(); }
+
+        function setProductMode(mode) {
+            productMode = mode;
+            $('editStockBox').classList.toggle('hidden', mode !== 'edit');
+            $('sizeQtyBox').classList.toggle('hidden', mode === 'edit');
+            $('sizeLabel').textContent = mode === 'edit' ? 'TAMANHO' : 'TAMANHOS (pode marcar vários de uma vez)';
+            $('sizeHint').textContent = mode === 'edit' ? 'NA = não se aplica / tamanho único' : 'NA = não se aplica / tamanho único. Marque P, M e G, por exemplo, e informe a quantidade de cada um.';
+        }
+
+        function openRegisterModal() {
+            $('modalTitle').innerHTML = '<i class="ph-bold ph-t-shirt"></i> Cadastrar Peça';
+            setProductMode('new');
+            $('editCodigo').value = '';
+            $('inputCodigo').value = nextCode();
+            $('inputCodigo').disabled = false;
+            $('inputDescricao').value = '';
+            $('inputColecao').value = '';
+            selSizes = {};
+            renderSizeChips(); renderSizeQty(); updateCodesPreview();
+            $('inputPrecoCompra').value = '';
+            $('inputTaxaDeslocamento').value = 0;
+            $('inputDespesaFixa').value = 0;
+            $('inputTaxaMaquineta').value = 7;
+            $('inputMargem').value = 40;
+            $('productSubmitBtn').disabled = false;
+            calcPreview();
+            $('productModal').classList.remove('hidden');
+        }
+
+        function editProduct(cod) {
+            const p = products.find(x => x.codigo === cod);
+            if (!p) return;
+            $('modalTitle').innerHTML = '<i class="ph-bold ph-pencil"></i> Editar Peça';
+            setProductMode('edit');
+            $('editCodigo').value = p.codigo;
+            $('inputCodigo').value = p.codigo;
+            $('inputCodigo').disabled = true;
+            $('inputDescricao').value = p.descricao || '';
+            $('inputColecao').value = p.colecao || '';
+            selSizes = {}; if (p.tamanho) selSizes[p.tamanho] = 0;
+            renderSizeChips(); renderSizeQty(); updateCodesPreview();
+            $('inputEstoqueAtual').value = stockOf(p);
+            $('inputPrecoCompra').value = p.precoCompra;
+            $('inputTaxaDeslocamento').value = p.taxaDeslocamento;
+            $('inputDespesaFixa').value = p.despesaFixa;
+            $('inputTaxaMaquineta').value = p.taxaMaquineta;
+            $('inputMargem').value = p.margem;
+            $('productSubmitBtn').disabled = false;
+            calcPreview();
+            $('productModal').classList.remove('hidden');
+        }
+        function closeProductModal() { $('productModal').classList.add('hidden'); }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const editCod = $('editCodigo').value;
+            const sizes = TAMANHOS.filter(t => selSizes[t] !== undefined);
+            if (!sizes.length) { toast('Escolha o tamanho da peça (use NA se não se aplica).', 'warn'); return; }
+            const base = sanitizeCode($('inputCodigo').value);
+            if (!base) { toast('Informe o código da peça.', 'warn'); return; }
+
+            const common = {
+                descricao: $('inputDescricao').value.trim(),
+                colecao: $('inputColecao').value.trim(),
+                precoCompra: parseFloat($('inputPrecoCompra').value) || 0,
+                taxaDeslocamento: parseFloat($('inputTaxaDeslocamento').value) || 0,
+                despesaFixa: parseFloat($('inputDespesaFixa').value) || 0,
+                taxaMaquineta: parseFloat($('inputTaxaMaquineta').value) || 0,
+                margem: parseFloat($('inputMargem').value) || 0
+            };
+            const btn = $('productSubmitBtn'); btn.disabled = true;
+            const FV = firebase.firestore.FieldValue;
+
+            try {
+                if (editCod) {
+                    const old = products.find(x => x.codigo === editCod);
+                    if (!old) throw new Error('Produto não encontrado.');
+                    const ref = db.collection('produtos').doc(safeId(editCod));
+                    const item = Object.assign({ codigo: editCod, tamanho: sizes[0] }, common);
+                    const atual = stockOf(old);
+                    const novo = Math.max(0, parseInt($('inputEstoqueAtual').value, 10) || 0);
+                    const diff = novo - atual;
+                    const batch = db.batch();
+                    if (typeof old.estoque !== 'number') item.estoque = novo;
+                    batch.set(ref, item, { merge: true });
+                    if (diff !== 0) {
+                        if (typeof old.estoque === 'number') batch.update(ref, { estoque: FV.increment(diff) });
+                        batch.set(db.collection('transacoes').doc(), {
+                            tipo: 'ajuste', codigo: editCod, descricao: common.descricao + (sizes[0] !== 'NA' ? ' · ' + sizes[0] : ''),
+                            date: hoje(), qty: diff, obs: 'Ajuste manual de estoque', ts: Date.now(), por: userEmail()
+                        });
+                    }
+                    const r = await commitSmart(batch);
+                    closeProductModal();
+                    toast(doneMsg(r, 'Peça atualizada.'), r === 'queued' ? 'warn' : 'ok');
+                } else {
+                    const multi = sizes.length > 1;
+                    const items = sizes.map(sz => {
+                        const q = Math.max(0, parseInt(selSizes[sz], 10) || 0);
+                        return Object.assign({
+                            codigo: multi ? base + '-' + sz : base, tamanho: sz,
+                            estoque: q, estoqueInicial: q, criadoEm: Date.now()
+                        }, common);
+                    });
+                    const dup = items.find(it => products.some(x => safeId(x.codigo) === safeId(it.codigo)));
+                    if (dup) { toast('O código ' + dup.codigo + ' já existe!', 'err'); btn.disabled = false; return; }
+                    const batch = db.batch();
+                    items.forEach(it => batch.set(db.collection('produtos').doc(safeId(it.codigo)), it));
+                    const r = await commitSmart(batch);
+                    closeProductModal();
+                    toast(doneMsg(r, items.length > 1 ? items.length + ' peças cadastradas.' : 'Peça cadastrada.'), r === 'queued' ? 'warn' : 'ok');
+                }
+            } catch (ex) { toast('Erro ao salvar: ' + explain(ex), 'err'); }
+            btn.disabled = false;
+        }
+
+        async function deleteProduct(cod) {
+            if (!confirm('Excluir a peça ' + cod + '? O histórico de vendas e reposições dela também será removido. Isso não pode ser desfeito.')) return;
+            if (!navigator.onLine) { toast('Para excluir é preciso estar com internet.', 'warn'); return; }
+            try {
+                const snap = await db.collection('transacoes').where('codigo', '==', cod).get();
+                const refs = snap.docs.map(d => d.ref);
+                refs.push(db.collection('produtos').doc(safeId(cod)));
+                for (let i = 0; i < refs.length; i += 400) {
+                    const batch = db.batch();
+                    refs.slice(i, i + 400).forEach(r => batch.delete(r));
+                    await batch.commit();
+                }
+                toast('Peça excluída.', 'ok');
+            } catch (ex) { toast('Erro ao excluir: ' + explain(ex), 'err'); }
+        }
+
+        function calcPreview() {
+            const comp = parseFloat($('inputPrecoCompra').value) || 0;
+            const des = parseFloat($('inputTaxaDeslocamento').value) || 0;
+            const fix = parseFloat($('inputDespesaFixa').value) || 0;
+            const maq = (parseFloat($('inputTaxaMaquineta').value) || 0) / 100;
+            const mar = (parseFloat($('inputMargem').value) || 0) / 100;
+            const base = comp + des + fix;
+            const aVista = base * (1 + mar);
+            const final = aVista * (1 + maq);
+            const lucro = final - base - (final * maq);
+            $('prevCusto').innerText = fmt(base);
+            $('prevAVista').innerText = fmt(aVista);
+            $('prevVenda').innerText = fmt(final);
+            $('prevLucro').innerText = fmt(lucro);
+        }
+
+        // ==========================================
+        // EXPORTAR CSV (abre direto no Excel)
+        // ==========================================
+        const csvNum = (v) => String(r2(v)).replace('.', ',');
+        const csvCell = (v) => { const s = String(v == null ? '' : v); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+
+        function downloadCsv(name, rows) {
+            const text = '﻿' + rows.map(r => r.map(csvCell).join(';')).join('\r\n');
+            const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = name;
+            document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
+        }
+
+        function exportMovs() {
+            const list = movList().slice().sort((a, b) => (a.date || '').localeCompare(b.date || '') || num(a.ts) - num(b.ts));
+            if (!list.length) { toast('Não há movimentações no período.', 'warn'); return; }
+            const rows = [['Data', 'Tipo', 'Código', 'Descrição', 'Quantidade', 'Pagamento', 'Preço unitário', 'Total', 'Taxa maquineta', 'Custo', 'Lucro', 'Cliente/Obs', 'Registrado por']];
+            list.forEach(t => {
+                const tp = tipoOf(t);
+                const p = products.find(x => x.codigo === t.codigo);
+                const desc = t.descricao || (p ? p.descricao + tamLabel(p) : '');
+                if (tp === 'venda') {
+                    const c = saleCalc(t);
+                    rows.push([fmtDate(t.date), 'Venda', t.codigo, desc, num(t.qty), t.pagamento && PAGAMENTOS[t.pagamento] ? PAGAMENTOS[t.pagamento].label : '', typeof t.precoUnit === 'number' ? csvNum(t.precoUnit) : '', csvNum(c.receita), csvNum(c.taxa), csvNum(c.custo), csvNum(c.lucro), [t.cliente, t.obs].filter(Boolean).join(' / '), t.por || '']);
+                } else {
+                    rows.push([fmtDate(t.date), tp === 'entrada' ? 'Reposição' : 'Ajuste', t.codigo, desc, num(t.qty), '', '', '', '', '', '', t.obs || '', t.por || '']);
+                }
+            });
+            downloadCsv('magnolias-movimentacoes-' + hoje() + '.csv', rows);
+        }
+
+        function exportProdutos() {
+            if (!products.length) { toast('Não há produtos cadastrados.', 'warn'); return; }
+            const rows = [['Código', 'Descrição', 'Tamanho', 'Coleção', 'Estoque', 'Custo base', 'Margem %', 'Maquineta %', 'Preço à vista', 'Preço cartão']];
+            products.forEach(p => {
+                const pr = pricing(p);
+                rows.push([p.codigo, p.descricao, p.tamanho || '', p.colecao || '', stockOf(p), csvNum(pr.custoBase), csvNum(num(p.margem)), csvNum(num(p.taxaMaquineta)), csvNum(pr.aVista), csvNum(pr.cartao)]);
+            });
+            downloadCsv('magnolias-produtos-' + hoje() + '.csv', rows);
+        }
+
+        // ==========================================
+        // APP INSTALÁVEL / OFFLINE
+        // ==========================================
+        if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+        }
+    </script>
+</body>
+</html>
